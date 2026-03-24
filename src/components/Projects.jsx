@@ -1,4 +1,4 @@
-import noteIT from '../assets/noteit.png';
+import noteIT from '../assets/noteIT.png';
 import MultiTrans from '../assets/MultiTrans.png';
 import Ev from '../assets/EV.png';
 import secure from '../assets/secure.png';
