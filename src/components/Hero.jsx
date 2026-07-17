@@ -1,4 +1,4 @@
-import ppic from '../assets/ppic.png';
+import ppic from '../assets/ppic.jpg';
 
 const Hero = () => {
   return (
@@ -65,7 +65,7 @@ const Hero = () => {
             <img
               src={ppic}
               alt="Mahesh"
-              className="w-36 h-44 sm:w-44 sm:h-52 md:w-56 md:h-64 lg:w-80 lg:h-96 rounded-lg shadow-lg object-cover grayscale-[.90] transition duration-300 hover:grayscale-0"
+              className="w-36 h-44 sm:w-44 sm:h-52 md:w-56 md:h-64 lg:w-80 lg:h-96 rounded-lg shadow-lg object-cover transition duration-300"
             />
           </div>
 

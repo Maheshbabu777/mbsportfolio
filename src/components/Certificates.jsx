@@ -1,21 +1,21 @@
 const certificates = [
     {
-        name: "Research Paper — ICICI 2026",
-        issuer: "Accepted at International Conference",
-        date: "2026",
-        link: "https://github.com/Maheshbabu777/Transformer-text-classification/blob/main/IEEE.pdf",
+        name: "McKinsey Forward Certificate",
+        issuer: "McKinsey & Company",
+        date: "June 2026",
+        link: "https://www.credly.com/badges/8c495cf3-013b-4da0-b42d-d8d4a1215d29/public_url",
+    },
+    {
+        name: "Research Paper — IEEE 2026",
+        issuer: "First-author research paper published at IEEE (IEEE Xplore, Document ID: 11565004)",
+        date: "May 2026",
+        link: "https://ieeexplore.ieee.org/document/11565004",
     },
     {
         name: "OCI Generative AI Professional",
         issuer: "Oracle University",
         date: "Oct 2025",
         link: "https://catalog-education.oracle.com/ords/certview/sharebadge?id=30DBF7665730981E6AD363EA3592D5E5C2802AE613B8C997FD1672545FB4205D",
-    },
-    {
-        name: "Master Generative AI & Generative AI tools",
-        issuer: "Udemy",
-        date: "Aug 2025",
-        link: "https://www.udemy.com/certificate/UC-b5dc0201-6777-4871-a1f2-fb3ced2f5561/",
     },
     {
         name: "Data Structures and Algorithm",

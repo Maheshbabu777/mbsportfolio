@@ -5,6 +5,7 @@ import Projects from "./components/Projects";
 import Skills from "./components/Skills";
 import Contact from "./components/Contact";
 import Certificates from "./components/Certificates";
+import Education from "./components/Education";
 import useScrollEffect from "./hooks/useScrollEffect";
 
 const App = () => {
@@ -25,6 +26,9 @@ const App = () => {
       </div>
       <div id="skills" className="flex">
         <Skills />
+      </div>
+      <div id="education" className="h-screen flex items-center">
+        <Education />
       </div>
       <div id="certificates" className="h-screen flex items-center">
         <Certificates />
