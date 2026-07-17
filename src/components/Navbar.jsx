@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import logo from '../assets/logo-red.svg';
-import resume from '../assets/revision-1.pdf';
+
+const resume = "https://drive.google.com/file/d/12SAjS9D40488-j1wSN7ogp9zoWt3WLpC/view?usp=sharing";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -10,7 +11,7 @@ const Navbar = () => {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
-      const sections = ['intro', 'about', 'projects', 'skills', 'certificates', 'contact'];
+      const sections = ['intro', 'about', 'projects', 'skills', 'education', 'certificates', 'contact'];
       const current = sections.find((section) => {
         const element = document.getElementById(section);
         if (!element) return false;
@@ -28,6 +29,7 @@ const Navbar = () => {
     { name: 'About',        href: '#about'        },
     { name: 'Projects',     href: '#projects'     },
     { name: 'Skills',       href: '#skills'       },
+    { name: 'Education',    href: '#education'    },
     { name: 'Certificates', href: '#certificates' },
   ];
 

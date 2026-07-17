@@ -1,6 +1,6 @@
 const skills = [
   { category: "Languages", items: ["Java", "Python", "C++", "C"] },
-  { category: "Frameworks & Libraries", items: ["React", "Node.js", "Express.js", "Flask", "Hugging Face Transformers", "Scikit-Learn", "Pandas", "NumPy", "Matplotlib", "Seaborn"] },
+  { category: "Frameworks & Libraries", items: ["PyTorch", "Node.js", "Express.js", "Flask", "Hugging Face Transformers", "Scikit-Learn", "Pandas", "NumPy", "Matplotlib", "Seaborn"] },
   { category: "Tools & Platforms", items: ["VS Code", "Git", "GitHub", "Jupyter Notebook", "Figma", "HackerRank", "Leetcode", "MongoDB"] },
   { category: "Core Competencies", items: ["Data Structures & Algorithms", "Machine Learning", "OOP", "DBMS", "Operating Systems"] },
 ];
