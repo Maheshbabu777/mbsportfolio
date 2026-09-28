@@ -2,20 +2,10 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { profile } from "../data";
 import { Arrow, Check, Copy, File, Github, LinkedIn, Moon, Paper, Search, SoundOn, XLogo } from "./Icons";
 import { play, setSound, soundOn } from "./sound";
+import { useNav } from "./nav";
 import { toggleTheme } from "./theme";
 import { startGhostGame } from "./Game";
 
-// the menu pauses smooth scroll while open, so resume it before jumping
-const go = (id) => {
-  const el = document.getElementById(id);
-  if (!el) return;
-  const lenis = window.__lenis;
-  lenis?.start();
-  requestAnimationFrame(() => {
-    if (lenis) lenis.scrollTo(el, { offset: -56 });
-    else window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 56, behavior: "smooth" });
-  });
-};
 const open = (url) => {
   const a = document.createElement("a");
   a.href = url; a.target = "_blank"; a.rel = "noopener noreferrer";
@@ -27,6 +17,8 @@ const CommandMenu = ({ openState, setOpen, theme, setTheme }) => {
   const [active, setActive] = useState(0);
   const [copied, setCopied] = useState(false);
   const input = useRef(null);
+  const nav = useNav();
+  const go = nav.section;
 
   const items = useMemo(() => [
     { g: "Go to", label: "About", run: () => go("about") },
@@ -35,7 +27,8 @@ const CommandMenu = ({ openState, setOpen, theme, setTheme }) => {
     { g: "Go to", label: "Activity", run: () => go("activity") },
     { g: "Go to", label: "Skills", run: () => go("skills") },
     { g: "Go to", label: "Achievements", run: () => go("achievements") },
-    { g: "Go to", label: "Contact", run: () => go("contact") },
+    { g: "Go to", label: "Contact", run: () => nav.contact() },
+    { g: "Go to", label: "Home", run: () => nav.home() },
     { g: "Links", label: "Resume (PDF)", icon: File, run: () => open(profile.resume) },
     { g: "Links", label: "GitHub", icon: Github, run: () => open(profile.github) },
     { g: "Links", label: "LinkedIn", icon: LinkedIn, run: () => open(profile.linkedin) },
@@ -46,7 +39,7 @@ const CommandMenu = ({ openState, setOpen, theme, setTheme }) => {
     { g: "Actions", label: soundOn() ? "Mute sounds" : "Turn sounds on", icon: SoundOn, run: () => setSound(!soundOn()) },
     { g: "Actions", label: "Play: catch the ghost", run: () => setTimeout(startGhostGame, 50) },
     { g: "Actions", label: theme === "dark" ? "Light mode" : "Dark mode", icon: Moon, run: () => toggleTheme(theme, setTheme) },
-  ], [theme, copied]);
+  ], [theme, copied, nav]);
 
   const list = items.filter((i) => i.label.toLowerCase().includes(q.toLowerCase()));
 

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Logo from "./Logo";
+import { useNav } from "./nav";
 import { startGhostGame } from "./Game";
 import { Moon, Search, SoundOff, SoundOn, Sun } from "./Icons";
 import { onSoundChange, play, setSound, soundOn } from "./sound";
@@ -27,6 +29,7 @@ const Header = ({ theme, setTheme, openMenu }) => {
     return () => { clearTimeout(a); clearTimeout(b); window.removeEventListener("ghost:play", off); };
   }, []);
 
+  const nav = useNav();
   const [sound, setSoundState] = useState(soundOn);
   useEffect(() => onSoundChange(setSoundState), []);
 
@@ -46,9 +49,9 @@ const Header = ({ theme, setTheme, openMenu }) => {
           )}
         </div>
         <nav className="flex items-center gap-1 sm:gap-2">
-          <a href="#work" className="hidden rounded-md px-2 py-1 text-sm text-muted transition-colors hover:text-fg sm:block">Work</a>
-          <a href="#experience" className="hidden rounded-md px-2 py-1 text-sm text-muted transition-colors hover:text-fg sm:block">Experience</a>
-          <a href="#contact" className="hidden rounded-md px-2 py-1 text-sm text-muted transition-colors hover:text-fg md:block">Contact</a>
+          <button onClick={() => nav.section("work")} className="hidden rounded-md px-2 py-1 text-sm text-muted transition-colors hover:text-fg sm:block">Work</button>
+          <button onClick={() => nav.section("experience")} className="hidden rounded-md px-2 py-1 text-sm text-muted transition-colors hover:text-fg sm:block">Experience</button>
+          <Link to="/contact" className={`hidden rounded-md px-2 py-1 text-sm transition-colors hover:text-fg sm:block ${nav.onContact ? "text-fg underline decoration-[color:var(--faint)] underline-offset-4" : "text-muted"}`}>Contact</Link>
           <button onClick={openMenu} className="chip ml-1 flex items-center gap-2 rounded-full py-1 px-2 text-sm sm:pl-2.5 sm:pr-1.5 text-muted transition-colors hover:text-fg" aria-label="Open command menu">
             <Search className="size-3.5" />
             <span className="hidden sm:inline">Search</span>

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { profile } from "../data";
 import LikeButton from "./LikeButton";
 import { Reveal } from "./Reveal";
@@ -49,21 +50,21 @@ const DotField = () => {
   return <canvas ref={canvas} className="block h-40 w-full" aria-hidden="true" />;
 };
 
-const Footer = () => (
+const Footer = ({ compact = false }) => (
   <footer>
-    <div className="hline px-4 py-12 text-center sm:px-6">
+    {!compact && <div className="hline px-4 py-12 text-center sm:px-6">
       <Reveal>
         <p className="text-4xl sm:text-5xl"><PixelMorph text="Still here?" /></p>
         <p className="mx-auto mt-3 max-w-sm text-sm text-muted">Thanks for scrolling this far. I'm open to AI/ML engineering roles and internships.</p>
         <div className="mt-5 flex items-center justify-center gap-2">
-          <a href="#contact" className="btn-dark inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium transition-transform active:scale-95"><Mail className="size-4" /> Get in touch</a>
+          <Link to="/contact" className="btn-dark inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium transition-transform active:scale-95"><Mail className="size-4" /> Get in touch</Link>
           <LikeButton />
         </div>
         <button onClick={startGhostGame} className="group mx-auto mt-6 flex items-center gap-2 font-mono text-xs text-faint transition-colors hover:text-fg">
           <Logo className="h-4 w-auto transition-transform group-hover:-rotate-12" /> or go catch the ghost
         </button>
       </Reveal>
-    </div>
+    </div>}
     <div className="hline px-4 py-5 text-center text-sm text-muted sm:px-6">
       Designed and built by <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="ulink-static text-fg">{profile.name}</a>
       <br /><span className="font-mono text-xs text-faint">© {new Date().getFullYear()}<span className="hidden sm:inline"> · press Ctrl/⌘ K to jump anywhere</span></span>

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { profile } from "../data";
-import Section from "./Section";
+import { Link } from "react-router-dom";
 import { Reveal } from "./Reveal";
-import { Arrow, Check, LinkedIn, Mail, Send, XLogo } from "./Icons";
+import { Arrow, ArrowRight, Check, LinkedIn, Mail, Send, XLogo } from "./Icons";
 import { play } from "./sound";
 
 // If VITE_WEB3FORMS_KEY is set (free key from web3forms.com), messages post straight to the inbox.
@@ -62,14 +62,23 @@ const Contact = () => {
   };
 
   return (
-    <Section id="contact" title="Contact" aside="usually reply within a day">
-      <div className="px-4 pt-4 sm:px-6">
-        <Reveal as="p" className="text-lg font-medium">Let's talk about what you're building.</Reveal>
-        <Reveal as="p" delay={60} className="mt-1 text-sm text-muted">Roles, internships, a project idea, or a question about something I've built. All welcome.</Reveal>
+    <div id="contact">
+      <div className="px-4 pt-8 sm:px-6">
+        <Reveal as="p" className="text-2xl text-faint sm:text-[28px]">Contact</Reveal>
+        <Reveal as="h1" delay={40} className="mt-1 text-[26px] font-medium leading-tight tracking-tight sm:text-4xl">Let's talk about what you're building</Reveal>
+        <Reveal as="p" delay={80} className="mt-2 text-sm text-muted">Roles, internships, a project idea, or a question about something I've built. All welcome.</Reveal>
+      </div>
+      <div className="mt-5 flex items-center justify-between border-y border-dashed border-line px-4 py-2.5 sm:px-6">
+        <Link to="/" className="group inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-fg">
+          <ArrowRight className="size-3.5 rotate-180 transition-transform group-hover:-translate-x-0.5" /> Home
+        </Link>
+        <span className="chip inline-flex items-center gap-2 rounded-full py-0.5 pl-3 pr-2.5 text-xs text-muted">
+          <span className="pulse-dot inline-block size-1.5 rounded-full bg-fg text-fg" /> Open to work
+        </span>
       </div>
 
-      <div className="px-4 py-4 sm:px-6">
-        <p className="mb-2 font-mono text-[11px] uppercase tracking-wider text-faint">Fastest routes</p>
+      <div className="hline px-4 py-5 sm:px-6">
+        <h2 className="mb-3 text-2xl tracking-tight sm:text-[28px]">Fastest routes</h2>
         <Reveal className="grid gap-2 sm:grid-cols-3">
           <Route dark href={`mailto:${profile.email}`} onClick={copyEmail} icon={copied ? <Check className="size-4" /> : <Mail className="size-4" />} title={copied ? "Copied" : "Email"} sub={copied ? profile.email : "click to copy"} />
           <Route href={profile.x} icon={<XLogo className="size-4" />} title="DM me on X" sub={profile.xHandle} />
@@ -77,8 +86,9 @@ const Contact = () => {
         </Reveal>
       </div>
 
-      <form onSubmit={submit} className="border-t border-dashed border-line px-4 py-5 sm:px-6">
-        <p className="mb-3 font-mono text-[11px] uppercase tracking-wider text-faint">Send a message</p>
+      <form onSubmit={submit} className="hline px-4 py-5 sm:px-6">
+        <h2 className="mb-1 text-2xl tracking-tight sm:text-[28px]">Send a message</h2>
+        <p className="mb-4 text-sm text-muted">Write here and it lands in my inbox. I usually reply within a day.</p>
         <label className="block text-sm font-medium" htmlFor="c-email">Your email</label>
         <input
           id="c-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" required
@@ -103,7 +113,7 @@ const Contact = () => {
           <a href={`mailto:${profile.email}`} className="ulink-static text-fg">{profile.email}</a>
         </p>
       </form>
-    </Section>
+    </div>
   );
 };
 
