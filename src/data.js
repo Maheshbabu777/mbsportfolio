@@ -120,8 +120,8 @@ export const skills = [
   {
     group: "LLM & RAG",
     items: [
-      ["RAG pipelines", "rag"], ["ChromaDB", "chroma"], ["Vector search", "vector"], ["Sentence Transformers", "huggingface"],
-      ["Prompt engineering", "prompt"], ["Agentic patterns", "agent"], ["Model evaluation", "eval"],
+      ["RAG pipelines", "rag"], ["ChromaDB", "chroma"], ["Prompt engineering", "prompt"],
+      ["Agentic patterns", "agent"], ["Model evaluation", "eval"],
     ],
   },
   { group: "Languages", items: [["Python", "python"], ["Java", "openjdk"], ["SQL", "db"]] },
