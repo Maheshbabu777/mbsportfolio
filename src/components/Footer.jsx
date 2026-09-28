@@ -54,9 +54,9 @@ const Footer = () => (
     <div className="hline px-4 py-12 text-center sm:px-6">
       <Reveal>
         <p className="text-4xl sm:text-5xl"><PixelMorph text="Still here?" /></p>
-        <p className="mx-auto mt-3 max-w-sm text-sm text-muted">I'm looking for AI/ML engineering roles and internships. If something here clicked, my inbox is open.</p>
+        <p className="mx-auto mt-3 max-w-sm text-sm text-muted">Thanks for scrolling this far. I'm open to AI/ML engineering roles and internships.</p>
         <div className="mt-5 flex items-center justify-center gap-2">
-          <a href={`mailto:${profile.email}`} className="btn-dark inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium transition-transform active:scale-95"><Mail className="size-4" /> Say hi</a>
+          <a href="#contact" className="btn-dark inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium transition-transform active:scale-95"><Mail className="size-4" /> Get in touch</a>
           <LikeButton />
         </div>
         <button onClick={startGhostGame} className="group mx-auto mt-6 flex items-center gap-2 font-mono text-xs text-faint transition-colors hover:text-fg">

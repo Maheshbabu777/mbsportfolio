@@ -3,7 +3,7 @@ import line from "../assets/avatar-line.jpg";
 import photo from "../assets/avatar-photo.jpg";
 import { profile, about } from "../data";
 import { BlurText, Reveal } from "./Reveal";
-import { File, Github, LinkedIn, Mail, Paper } from "./Icons";
+import { File, Github, LinkedIn, Mail, XLogo } from "./Icons";
 
 const Clock = () => {
   const fmt = () => new Date().toLocaleTimeString("en-IN", { hour: "numeric", minute: "2-digit", hour12: true, timeZone: profile.timezone });
@@ -101,7 +101,7 @@ const Hero = () => (
       <Reveal className="flex flex-wrap gap-2">
         <Btn href={profile.github} dark><Github className="size-3.5" /> GitHub</Btn>
         <Btn href={profile.linkedin} dark><LinkedIn className="size-3.5" /> LinkedIn</Btn>
-        <Btn href={profile.paper} dark><Paper className="size-3.5" /> IEEE paper</Btn>
+        <Btn href={profile.x} dark><XLogo className="size-3.5" /> X</Btn>
         <Btn href={`mailto:${profile.email}`} dark><Mail className="size-3.5" /> Email</Btn>
       </Reveal>
     </div>

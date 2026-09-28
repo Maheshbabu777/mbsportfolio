@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { profile } from "../data";
-import { Arrow, Check, Copy, File, Github, LinkedIn, Moon, Paper, Search } from "./Icons";
+import { Arrow, Check, Copy, File, Github, LinkedIn, Moon, Paper, Search, SoundOn, XLogo } from "./Icons";
+import { play, setSound, soundOn } from "./sound";
 import { toggleTheme } from "./theme";
 import { startGhostGame } from "./Game";
 
@@ -34,12 +35,15 @@ const CommandMenu = ({ openState, setOpen, theme, setTheme }) => {
     { g: "Go to", label: "Activity", run: () => go("activity") },
     { g: "Go to", label: "Skills", run: () => go("skills") },
     { g: "Go to", label: "Achievements", run: () => go("achievements") },
+    { g: "Go to", label: "Contact", run: () => go("contact") },
     { g: "Links", label: "Resume (PDF)", icon: File, run: () => open(profile.resume) },
     { g: "Links", label: "GitHub", icon: Github, run: () => open(profile.github) },
     { g: "Links", label: "LinkedIn", icon: LinkedIn, run: () => open(profile.linkedin) },
+    { g: "Links", label: "X", icon: XLogo, run: () => open(profile.x) },
     { g: "Links", label: "IEEE paper", icon: Paper, run: () => open(profile.paper) },
     { g: "Links", label: "Semlogic live demo", icon: Arrow, run: () => open("https://semlogic.vercel.app/") },
     { g: "Actions", label: "Copy email", icon: copied ? Check : Copy, keep: true, run: async () => { try { await navigator.clipboard.writeText(profile.email); setCopied(true); setTimeout(() => setCopied(false), 1400); } catch { /* ignore */ } } },
+    { g: "Actions", label: soundOn() ? "Mute sounds" : "Turn sounds on", icon: SoundOn, run: () => setSound(!soundOn()) },
     { g: "Actions", label: "Play: catch the ghost", run: () => setTimeout(startGhostGame, 50) },
     { g: "Actions", label: theme === "dark" ? "Light mode" : "Dark mode", icon: Moon, run: () => toggleTheme(theme, setTheme) },
   ], [theme, copied]);
@@ -56,7 +60,7 @@ const CommandMenu = ({ openState, setOpen, theme, setTheme }) => {
   }, []);
 
   useEffect(() => {
-    if (openState) { setQ(""); setActive(0); setTimeout(() => input.current?.focus(), 10); window.__lenis?.stop(); }
+    if (openState) { play("open"); setQ(""); setActive(0); setTimeout(() => input.current?.focus(), 10); window.__lenis?.stop(); }
     else window.__lenis?.start();
   }, [openState]);
 

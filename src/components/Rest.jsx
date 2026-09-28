@@ -1,25 +1,8 @@
-import { achievements, certs, education, skills } from "../data";
+import { achievements, certs, education } from "../data";
 import Section from "./Section";
 import { Reveal } from "./Reveal";
 import { Arrow } from "./Icons";
 import OrgLogo from "./OrgLogo";
-
-export const Skills = () => (
-  <Section id="skills" title="Skills">
-    <div className="divide-y divide-dashed divide-[color:var(--line)]">
-      {skills.map((g, gi) => (
-        <Reveal key={g.group} delay={gi * 60} className="flex flex-col gap-2 px-4 py-3 sm:flex-row sm:items-center sm:gap-4 sm:px-6">
-          <span className="w-32 shrink-0 font-mono text-[11px] uppercase tracking-wider text-faint">{g.group}</span>
-          <div className="flex flex-wrap gap-1.5">
-            {g.items.map((s) => (
-              <span key={s} className="chip rounded-md px-2 py-1 text-[13px] transition-colors duration-200 hover:bg-[color:var(--fg)] hover:text-[color:var(--bg)]">{s}</span>
-            ))}
-          </div>
-        </Reveal>
-      ))}
-    </div>
-  </Section>
-);
 
 const Item = ({ title, desc, date, link, i }) => {
   const Tag = link ? "a" : "div";

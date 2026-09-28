@@ -8,6 +8,8 @@ export const profile = {
   github: "https://github.com/Maheshbabu777",
   githubUser: "Maheshbabu777",
   linkedin: "https://linkedin.com/in/maheshbabu-v",
+  x: "https://x.com/mahesh____i",
+  xHandle: "@mahesh____i",
   resume: "/Mahesh_Resume.pdf",
   paper: "https://ieeexplore.ieee.org/document/11565004",
 };
@@ -101,10 +103,37 @@ export const moreProjects = [
 ];
 
 export const skills = [
-  { group: "ML / DL", items: ["PyTorch", "HuggingFace", "Scikit-learn", "XGBoost", "LightGBM", "MLflow"] },
-  { group: "LLM", items: ["RAG", "Vector DBs", "ChromaDB", "Prompting", "Agentic patterns"] },
-  { group: "Languages", items: ["Python", "Java", "SQL"] },
-  { group: "Backend & tools", items: ["FastAPI", "REST APIs", "Docker", "AWS", "Git"] },
+  {
+    group: "AI coding tools",
+    note: "what I build with every day",
+    items: [
+      ["Claude Code", "claude"], ["Codex", "codex"], ["Kiro", "kiro"], ["GitHub Copilot", "githubcopilot"],
+      ["Gemini", "googlegemini"], ["Antigravity", "antigravity"],
+    ],
+  },
+  {
+    group: "ML / DL",
+    items: [
+      ["PyTorch", "pytorch"], ["Hugging Face", "huggingface"], ["Scikit-learn", "scikitlearn"], ["XGBoost", "tree"],
+      ["LightGBM", "tree"], ["MLflow", "mlflow"], ["Pandas", "pandas"], ["NumPy", "numpy"],
+    ],
+  },
+  {
+    group: "LLM & RAG",
+    items: [
+      ["RAG pipelines", "rag"], ["ChromaDB", "chroma"], ["Vector search", "vector"], ["Sentence Transformers", "huggingface"],
+      ["Prompt engineering", "prompt"], ["Agentic patterns", "agent"], ["Model evaluation", "eval"],
+    ],
+  },
+  { group: "Languages", items: [["Python", "python"], ["Java", "openjdk"], ["SQL", "db"]] },
+  {
+    group: "Backend & infra",
+    items: [["FastAPI", "fastapi"], ["REST APIs", "api"], ["Docker", "docker"], ["AWS", "aws"], ["Vercel", "vercel"]],
+  },
+  {
+    group: "Workflow",
+    items: [["Git", "git"], ["GitHub", "github"], ["Jupyter", "jupyter"], ["Google Colab", "googlecolab"], ["Kaggle", "kaggle"], ["Figma", "figma"]],
+  },
 ];
 
 export const achievements = [

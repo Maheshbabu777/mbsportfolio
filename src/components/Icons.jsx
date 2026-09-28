@@ -26,3 +26,9 @@ export const Heart = ({ className = "size-4", filled }) => (
 );
 export const Battery = (p) => <I {...p}><rect x="2" y="7" width="17" height="10" rx="2" /><path d="M22 11v2M6 10v4M10 10v4" /></I>;
 export const Note = (p) => <I {...p}><path d="M5 3h10l4 4v14H5z" /><path d="M15 3v4h4M8 11h8M8 15h6" /></I>;
+export const SoundOn = (p) => <I {...p}><path d="M4 9v6h4l5 4V5L8 9Z" /><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" /></I>;
+export const SoundOff = (p) => <I {...p}><path d="M4 9v6h4l5 4V5L8 9Z" /><path d="m17 9 5 5M22 9l-5 5" /></I>;
+export const Send = (p) => <I {...p} d="M21 3 10 14M21 3l-7 18-4-7-7-4Z" />;
+export const XLogo = ({ className = "size-4" }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true"><path d="M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z" /></svg>
+);

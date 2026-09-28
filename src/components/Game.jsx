@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Logo from "./Logo";
+import { play } from "./sound";
 
 // "Catch the ghost": the logo escapes the header and runs around the screen.
 // It dodges the cursor and gets faster every time you catch it. 30 seconds a round.
@@ -43,6 +44,7 @@ const Game = () => {
     newTarget();
     setScore(0); setMisses(0); setLeft(ROUND); setMood("normal"); setBursts([]); setTaunt(null);
     setPhase("playing");
+    play("start");
     document.documentElement.classList.add("ghost-out");
     window.__lenis?.stop();
   }, []);
@@ -59,6 +61,7 @@ const Game = () => {
   useEffect(() => {
     if (phase !== "playing" || left > 0) return;
     stop(true);
+    play("over");
     if (score > readBest()) { saveBest(score); setBest(score); }
   }, [left, phase, score, stop]);
 
@@ -98,7 +101,7 @@ const Game = () => {
           s.vy += (fy / (fd || 1)) * k;
           if (fd < 50) newTarget();
           s.stamina -= 1.4 - Math.min(level * 0.07, 0.8);
-          if (s.stamina <= 0) { s.tired = Math.max(28, 70 - level * 4); setTaunt({ text: "*huff huff*", x: s.x + SIZE / 2, y: s.y - 10, id: Math.random() }); }
+          if (s.stamina <= 0) { s.tired = Math.max(28, 70 - level * 4); play("tired"); setTaunt({ text: "*huff huff*", x: s.x + SIZE / 2, y: s.y - 10, id: Math.random() }); }
         } else s.stamina = Math.min(100, s.stamina + 0.4);
         const sp = Math.hypot(s.vx, s.vy);
         if (sp > maxV) { s.vx = (s.vx / sp) * maxV; s.vy = (s.vy / sp) * maxV; }
@@ -147,6 +150,7 @@ const Game = () => {
       s.caught += 1;
       s.stun = 26; s.stamina = 100; s.tired = 0;
       setScore((n) => n + 1);
+      play("catch");
       setMood("caught");
       burst(s.x + SIZE / 2, s.y + SIZE / 2);
       setTimeout(() => {
@@ -162,6 +166,7 @@ const Game = () => {
       }, 380);
     } else {
       setMisses((m) => m + 1);
+      play("miss");
       setTaunt({ text: LINES[Math.floor(Math.random() * LINES.length)], x: s.x + SIZE / 2, y: s.y - 10, id: Math.random() });
     }
   };

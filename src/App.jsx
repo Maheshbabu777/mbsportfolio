@@ -6,7 +6,10 @@ import Hero from "./components/Hero";
 import Experience from "./components/Experience";
 import Projects from "./components/Projects";
 import Activity from "./components/Activity";
-import { Achievements, Certifications, Education, Skills } from "./components/Rest";
+import { Achievements, Certifications, Education } from "./components/Rest";
+import Skills from "./components/Skills";
+import Contact from "./components/Contact";
+import { wireSounds } from "./components/sound";
 import Footer from "./components/Footer";
 import CommandMenu from "./components/CommandMenu";
 import Game from "./components/Game";
@@ -36,6 +39,7 @@ const App = () => {
   const [menu, setMenu] = useState(false);
   useEffect(() => applyTheme(theme), []);
   useLenis();
+  useEffect(() => wireSounds(), []);
 
   return (
     <>
@@ -50,6 +54,7 @@ const App = () => {
         <Achievements />
         <Certifications />
         <Education />
+        <Contact />
         <Footer />
       </main>
       <Game />
