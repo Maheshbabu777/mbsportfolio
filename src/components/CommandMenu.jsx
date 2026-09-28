@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { profile } from "../data";
 import { Arrow, Check, Copy, File, Github, LinkedIn, Moon, Paper, Search } from "./Icons";
 import { toggleTheme } from "./theme";
+import { startGhostGame } from "./Game";
 
 // the menu pauses smooth scroll while open, so resume it before jumping
 const go = (id) => {
@@ -39,6 +40,7 @@ const CommandMenu = ({ openState, setOpen, theme, setTheme }) => {
     { g: "Links", label: "IEEE paper", icon: Paper, run: () => open(profile.paper) },
     { g: "Links", label: "Semlogic live demo", icon: Arrow, run: () => open("https://semlogic.vercel.app/") },
     { g: "Actions", label: "Copy email", icon: copied ? Check : Copy, keep: true, run: async () => { try { await navigator.clipboard.writeText(profile.email); setCopied(true); setTimeout(() => setCopied(false), 1400); } catch { /* ignore */ } } },
+    { g: "Actions", label: "Play: catch the ghost", run: () => setTimeout(startGhostGame, 50) },
     { g: "Actions", label: theme === "dark" ? "Light mode" : "Dark mode", icon: Moon, run: () => toggleTheme(theme, setTheme) },
   ], [theme, copied]);
 

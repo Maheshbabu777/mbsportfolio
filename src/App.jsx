@@ -9,6 +9,7 @@ import Activity from "./components/Activity";
 import { Achievements, Certifications, Education, Skills } from "./components/Rest";
 import Footer from "./components/Footer";
 import CommandMenu from "./components/CommandMenu";
+import Game from "./components/Game";
 import { applyTheme, getInitialTheme } from "./components/theme";
 
 const useLenis = () => {
@@ -51,6 +52,7 @@ const App = () => {
         <Education />
         <Footer />
       </main>
+      <Game />
       <CommandMenu openState={menu} setOpen={setMenu} theme={theme} setTheme={setTheme} />
     </>
   );

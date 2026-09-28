@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 // Mahesh's ghost mark. The two square eyes look toward the cursor and blink now and then.
-const Logo = ({ className = "h-8 w-auto" }) => {
+const Logo = ({ className = "h-8 w-auto", mood = "normal" }) => {
   const ref = useRef(null);
   const [look, setLook] = useState({ x: 0, y: 0 });
   const [blink, setBlink] = useState(false);
@@ -35,12 +35,15 @@ const Logo = ({ className = "h-8 w-auto" }) => {
     return () => { window.removeEventListener("mousemove", move); cancelAnimationFrame(raf); clearTimeout(t); };
   }, []);
 
+  // scared: tiny pupils. caught: eyes squeezed shut.
+  const shut = blink || mood === "caught";
+  const small = mood === "scared";
   const eye = (x) => (
     <rect
-      x={x}
-      y={17 + (blink ? 1.5 : 0)}
-      width="4"
-      height={blink ? 1 : 4}
+      x={small ? x + 1 : x}
+      y={shut ? 18.5 : small ? 18 : 17}
+      width={small ? 2 : 4}
+      height={shut ? 1 : small ? 2 : 4}
       fill="var(--bg)"
       style={{ transform: `translate(${look.x}px, ${look.y}px)`, transition: "transform .15s steps(2)" }}
     />

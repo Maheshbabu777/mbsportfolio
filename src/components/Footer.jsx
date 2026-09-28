@@ -4,6 +4,8 @@ import LikeButton from "./LikeButton";
 import { Reveal } from "./Reveal";
 import { Mail } from "./Icons";
 import { PixelMorph } from "./PixelLogo";
+import Logo from "./Logo";
+import { startGhostGame } from "./Game";
 
 // dot field that swells around the cursor
 const DotField = () => {
@@ -57,6 +59,9 @@ const Footer = () => (
           <a href={`mailto:${profile.email}`} className="btn-dark inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium transition-transform active:scale-95"><Mail className="size-4" /> Say hi</a>
           <LikeButton />
         </div>
+        <button onClick={startGhostGame} className="group mx-auto mt-6 flex items-center gap-2 font-mono text-xs text-faint transition-colors hover:text-fg">
+          <Logo className="h-4 w-auto transition-transform group-hover:-rotate-12" /> or go catch the ghost
+        </button>
       </Reveal>
     </div>
     <div className="hline px-4 py-5 text-center text-sm text-muted sm:px-6">

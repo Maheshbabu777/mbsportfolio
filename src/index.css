@@ -109,3 +109,11 @@ body {
 }
 .glass { background: color-mix(in srgb, var(--bg) 94%, transparent); }
 
+
+/* ghost game */
+html.ghost-out [data-ghost-home] { opacity: 0; transform: scale(.6); }
+[data-ghost-home] { transition: opacity .3s, transform .3s; }
+.ghost-spark { left: -3px; top: -3px; animation: spark .55s steps(5) forwards; }
+@keyframes spark { to { transform: translate(var(--dx), var(--dy)); opacity: 0; } }
+.ghost-plus { top: -34px; animation: plus .6s ease-out forwards; }
+@keyframes plus { from { opacity: 1; transform: translate(-50%, 0); } to { opacity: 0; transform: translate(-50%, -18px); } }

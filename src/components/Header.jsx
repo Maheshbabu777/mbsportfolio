@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Logo from "./Logo";
+import { startGhostGame } from "./Game";
 import { Moon, Search, Sun } from "./Icons";
 import { toggleTheme } from "./theme";
 
@@ -12,14 +13,34 @@ const Header = ({ theme, setTheme, openMenu }) => {
     return () => window.removeEventListener("scroll", on);
   }, []);
 
+  // one-time nudge so people find the game
+  const [hint, setHint] = useState(false);
+  useEffect(() => {
+    let seen = false;
+    try { seen = localStorage.getItem("mb-ghost-hint") === "1"; } catch { /* ignore */ }
+    if (seen) return;
+    const a = setTimeout(() => setHint(true), 5000);
+    const b = setTimeout(() => { setHint(false); try { localStorage.setItem("mb-ghost-hint", "1"); } catch { /* ignore */ } }, 11000);
+    const off = () => setHint(false);
+    window.addEventListener("ghost:play", off);
+    return () => { clearTimeout(a); clearTimeout(b); window.removeEventListener("ghost:play", off); };
+  }, []);
+
   const isMac = typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform);
 
   return (
     <header className={`sticky top-0 z-50 transition-[background,backdrop-filter] duration-300 ${scrolled ? "backdrop-blur-md glass border-b border-dashed border-line" : "border-b border-transparent"}`}>
       <div className="mx-auto flex h-14 max-w-3xl items-center justify-between rail px-4 sm:px-6">
-        <a href="#top" className="flex items-center" aria-label="Home">
-          <Logo className="h-7 w-auto" />
-        </a>
+        <div className="relative flex items-center">
+          <button onClick={startGhostGame} data-ghost-home data-cursor="catch me" className="flex items-center" aria-label="Play catch the ghost">
+            <Logo className="h-7 w-auto" />
+          </button>
+          {hint && (
+            <span className="swap-enter pointer-events-none absolute left-9 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-md border border-line bg-card px-1.5 py-0.5 font-mono text-[11px] text-muted shadow-sm">
+              ← psst, try catching me
+            </span>
+          )}
+        </div>
         <nav className="flex items-center gap-1 sm:gap-2">
           <a href="#work" className="hidden rounded-md px-2 py-1 text-sm text-muted transition-colors hover:text-fg sm:block">Work</a>
           <a href="#experience" className="hidden rounded-md px-2 py-1 text-sm text-muted transition-colors hover:text-fg sm:block">Experience</a>
