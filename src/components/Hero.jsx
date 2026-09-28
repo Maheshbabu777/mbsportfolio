@@ -27,14 +27,16 @@ const Avatar = () => {
   return (
     <div className="flex flex-col items-center gap-2">
       <div
-        className={`avatar relative size-[104px] overflow-hidden rounded-xl border border-line bg-white p-0.5 shadow-[0_1px_0_var(--line)] sm:size-[120px] ${photoOn ? "show-photo" : ""}`}
-        data-cursor={photoOn ? "draw" : "real"}
+        className="rounded-xl border border-line bg-white p-[3px] shadow-[0_1px_0_var(--line)]"
+        data-cursor={photoOn ? "drawing" : "real me"}
         onClick={() => setPhotoOn((v) => !v)}
         role="button"
         aria-label="Switch avatar"
       >
-        <img src={line} alt="Illustration of Mahesh" className="size-full rounded-[10px] object-cover" draggable="false" />
-        <img src={photo} alt="Photo of Mahesh" className="avatar-photo absolute inset-0.5 size-[calc(100%-4px)] rounded-[10px] object-cover" draggable="false" />
+        <div className={`avatar relative size-[98px] overflow-hidden rounded-[9px] bg-white sm:size-[114px] ${photoOn ? "show-photo" : ""}`}>
+          <img src={line} alt="Illustration of Mahesh" className="absolute inset-0 block size-full object-cover" draggable="false" />
+          <img src={photo} alt="Photo of Mahesh" className="avatar-photo absolute inset-0 block size-full object-cover" draggable="false" />
+        </div>
       </div>
       <button
         onClick={() => setPhotoOn((v) => !v)}

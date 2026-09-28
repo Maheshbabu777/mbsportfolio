@@ -3,7 +3,7 @@ import { experience } from "../data";
 import Section from "./Section";
 import { Reveal } from "./Reveal";
 import { Arrow, Chevron } from "./Icons";
-import BitText from "./PixelLogo";
+import OrgLogo from "./OrgLogo";
 
 const Row = ({ e, i }) => {
   const [open, setOpen] = useState(i === 0);
@@ -13,10 +13,9 @@ const Row = ({ e, i }) => {
         onClick={() => setOpen((o) => !o)}
         className="group flex w-full items-center gap-3 px-4 py-4 text-left sm:gap-4 sm:px-6"
         aria-expanded={open}
+        data-cursor={open ? "close" : "expand"}
       >
-        <span className="btn-dark grid size-10 shrink-0 place-items-center rounded-lg ">
-          <BitText text={e.mark} px={2.6} gap={0.6} interactive={false} />
-        </span>
+        <OrgLogo name={e.logo} alt={`${e.company} logo`} />
         <span className="min-w-0 flex-1">
           <span className="flex items-center gap-2 font-medium">
             {e.company}

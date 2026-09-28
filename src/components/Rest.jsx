@@ -2,7 +2,7 @@ import { achievements, certs, education, skills } from "../data";
 import Section from "./Section";
 import { Reveal } from "./Reveal";
 import { Arrow } from "./Icons";
-import BitText from "./PixelLogo";
+import OrgLogo from "./OrgLogo";
 
 export const Skills = () => (
   <Section id="skills" title="Skills">
@@ -51,8 +51,8 @@ export const Certifications = () => (
 
 export const Education = () => (
   <Section id="education" title="Education">
-    <Reveal className="flex items-start gap-3 px-4 py-4 sm:px-6">
-      <span className="btn-dark grid size-10 shrink-0 place-items-center rounded-lg "><BitText text="L" px={2.6} gap={0.6} interactive={false} /></span>
+    <Reveal className="group flex items-start gap-3 px-4 py-4 sm:px-6">
+      <OrgLogo name="lpu" alt="LPU logo" />
       <span className="min-w-0 flex-1">
         <span className="block font-medium">{education.school}</span>
         <span className="block text-sm text-muted">{education.degree} · {education.grade}</span>

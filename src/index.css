@@ -97,8 +97,8 @@ body {
 .chip { background: var(--chip); border: 1px solid var(--line); }
 
 /* avatar pixel reveal */
-.avatar-photo { clip-path: inset(0 0 100% 0); transition: clip-path .6s steps(12); }
-.avatar.show-photo .avatar-photo { clip-path: inset(0 0 0 0); }
+.avatar-photo { clip-path: inset(0 0 100% 0); visibility: hidden; transition: clip-path .5s steps(10), visibility 0s .5s; }
+.avatar.show-photo .avatar-photo { clip-path: inset(0); visibility: visible; transition: clip-path .5s steps(10), visibility 0s; }
 .dark .avatar-dither { filter: invert(1); }
 
 /* theme transition via view transitions */
@@ -108,3 +108,14 @@ body {
   .reveal, .word, .swap-enter { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
 }
 .glass { background: color-mix(in srgb, var(--bg) 94%, transparent); }
+
+/* pointer spotlight: a dot grid revealed only near the cursor */
+.cursor-spot {
+  --sx: -500px; --sy: -500px;
+  background-image: radial-gradient(var(--fg) 1px, transparent 1.2px);
+  background-size: 12px 12px;
+  opacity: .22;
+  -webkit-mask-image: radial-gradient(circle 150px at var(--sx) var(--sy), #000 0%, transparent 100%);
+  mask-image: radial-gradient(circle 150px at var(--sx) var(--sy), #000 0%, transparent 100%);
+}
+@media (pointer: coarse) { .cursor-spot { display: none; } }

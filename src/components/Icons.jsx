@@ -24,3 +24,5 @@ export const LinkedIn = ({ className = "size-4" }) => (
 export const Heart = ({ className = "size-4", filled }) => (
   <svg viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.6" className={className} aria-hidden="true"><path strokeLinejoin="round" d="M21 8.25c0-2.5-2.1-4.5-4.7-4.5-1.9 0-3.6 1.1-4.3 2.7-.7-1.6-2.4-2.7-4.3-2.7C5.1 3.75 3 5.77 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" /></svg>
 );
+export const Battery = (p) => <I {...p}><rect x="2" y="7" width="17" height="10" rx="2" /><path d="M22 11v2M6 10v4M10 10v4" /></I>;
+export const Note = (p) => <I {...p}><path d="M5 3h10l4 4v14H5z" /><path d="M15 3v4h4M8 11h8M8 15h6" /></I>;

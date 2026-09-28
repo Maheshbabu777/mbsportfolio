@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import BitText from "./PixelLogo";
+import Logo from "./Logo";
 import { Moon, Search, Sun } from "./Icons";
 import { toggleTheme } from "./theme";
 
@@ -18,7 +18,7 @@ const Header = ({ theme, setTheme, openMenu }) => {
     <header className={`sticky top-0 z-50 transition-[background,backdrop-filter] duration-300 ${scrolled ? "backdrop-blur-md glass border-b border-dashed border-line" : "border-b border-transparent"}`}>
       <div className="mx-auto flex h-14 max-w-3xl items-center justify-between rail px-4 sm:px-6">
         <a href="#top" className="flex items-center" aria-label="Home">
-          <BitText text="MAHESH" px={3.2} gap={0.6} />
+          <Logo className="h-7 w-auto" />
         </a>
         <nav className="flex items-center gap-1 sm:gap-2">
           <a href="#work" className="hidden rounded-md px-2 py-1 text-sm text-muted transition-colors hover:text-fg sm:block">Work</a>

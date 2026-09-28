@@ -3,8 +3,8 @@ import semlogic from "../assets/semlogic.webp";
 import { moreProjects, projects } from "../data";
 import Section from "./Section";
 import { Reveal, useInView } from "./Reveal";
-import { Arrow, Github } from "./Icons";
-import BitText from "./PixelLogo";
+import { Arrow, Battery, Github, Note } from "./Icons";
+
 
 // tilt the media toward the cursor
 const useTilt = () => {
@@ -68,7 +68,7 @@ const Media = ({ p }) => {
 
 const Card = ({ p, i }) => (
   <Reveal delay={i * 100} className={`flex flex-col gap-3 p-4 sm:p-5 ${i === 0 ? "md:border-r md:border-dashed md:border-line" : "border-t border-dashed border-line md:border-t-0"}`}>
-    <a href={p.live || p.code} target="_blank" rel="noopener noreferrer" data-cursor="open" aria-label={`Open ${p.name}`}>
+    <a href={p.live || p.code} target="_blank" rel="noopener noreferrer" data-cursor={p.live ? "live demo ↗" : "view code ↗"} aria-label={`Open ${p.name}`}>
       <Media p={p} />
     </a>
     <div className="flex items-start justify-between gap-2">
@@ -110,7 +110,7 @@ const Projects = () => (
       {moreProjects.map((m, i) => (
         <Reveal key={m.name} delay={i * 60}>
           <a href={m.link} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-3 rounded-lg py-2.5">
-            <span className="chip grid size-8 shrink-0 place-items-center rounded-md "><BitText text={m.name[0]} px={2} gap={0.5} interactive={false} /></span>
+            <span className="chip grid size-8 shrink-0 place-items-center rounded-md">{m.icon === "battery" ? <Battery className="size-4" /> : <Note className="size-4" />}</span>
             <span className="min-w-0 flex-1">
               <span className="block text-sm font-medium">{m.name}</span>
               <span className="block truncate text-xs text-muted">{m.desc}</span>

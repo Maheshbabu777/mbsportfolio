@@ -26,7 +26,7 @@ export const experience = [
     meta: "Lensy",
     date: "Sep 2026 - Present",
     link: "https://perseveranceai.com",
-    mark: "P",
+    logo: "perseverance",
     current: true,
     summary: "Working on an AI-readiness auditing product for technical documentation.",
     points: [
@@ -42,7 +42,7 @@ export const experience = [
     meta: "under Prof. Enjula Uchoi",
     date: "Dec 2025 - Apr 2026",
     link: "https://ieeexplore.ieee.org/document/11565004",
-    mark: "R",
+    logo: "lpu",
     summary: "Token-level language identification for Hinglish (code-switched Hindi and English) text.",
     points: [
       "Fine-tuned and compared four transformers (mDeBERTa-v3, XLM-RoBERTa, mBERT, DistilBERT) on 74,813 labeled tokens across zero-shot, few-shot and full fine-tuning.",
@@ -90,11 +90,13 @@ export const moreProjects = [
     name: "EV Battery Charging Optimization",
     desc: "Predicting optimal charging duration from EV battery data with scikit-learn.",
     link: "https://github.com/Maheshbabu777/EV-battery-optimisation",
+    icon: "battery",
   },
   {
     name: "NoteIT",
     desc: "Full-stack notes app with CRUD and user authentication.",
     link: "https://github.com/Maheshbabu777/NoteIT",
+    icon: "note",
   },
 ];
 
