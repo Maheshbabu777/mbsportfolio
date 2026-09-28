@@ -61,7 +61,7 @@ const Activity = () => {
 
   return (
     <Section id="activity" title="Activity" aside={total != null ? `${total} contributions this year` : "loading"}>
-      <div ref={scroller} className="relative overflow-x-auto px-4 py-5 sm:px-6">
+      <div ref={scroller} className="no-scrollbar relative overflow-x-auto px-4 py-5 sm:px-6">
         <div className="min-w-[640px]">
           <div className="mb-1 flex gap-[3px] font-mono text-[11px] text-faint">
             {months.map((m, i) => <span key={i} className="w-[10px] overflow-visible whitespace-nowrap">{m}</span>)}

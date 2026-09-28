@@ -35,7 +35,11 @@
   color-scheme: dark;
 }
 
-html { -webkit-font-smoothing: antialiased; scrollbar-gutter: stable; }
+/* no visible scrollbars anywhere; scrolling still works with wheel, touch and keys */
+html { -webkit-font-smoothing: antialiased; scrollbar-width: none; }
+html::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
 html.scroll-locked { overflow: hidden; }
 
 body {

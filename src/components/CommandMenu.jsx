@@ -65,6 +65,10 @@ const CommandMenu = ({ openState, setOpen, theme, setTheme, color, setColor }) =
   }, [openState]);
 
   useEffect(() => setActive(0), [q]);
+  // keep the highlighted row visible when moving with the arrow keys
+  useEffect(() => {
+    document.querySelector(`[data-cmd-index="${active}"]`)?.scrollIntoView({ block: "nearest" });
+  }, [active]);
 
   const choose = (item) => { if (!item.keep) setOpen(false); item.run(); };
 
@@ -82,10 +86,10 @@ const CommandMenu = ({ openState, setOpen, theme, setTheme, color, setColor }) =
       <div className="swap-enter w-full max-w-md overflow-hidden rounded-xl border border-line bg-card shadow-2xl" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label="Command menu">
         <div className="flex items-center gap-2 border-b border-line px-3">
           <Search className="size-4 text-faint" />
-          <input ref={input} value={q} onChange={(e) => setQ(e.target.value)} onKeyDown={onKey} placeholder="Type a command or search" aria-label="Search commands" className="h-11 flex-1 bg-transparent text-sm outline-none placeholder:text-faint" />
+          <input ref={input} value={q} onChange={(e) => setQ(e.target.value)} onKeyDown={onKey} placeholder="Type a command or search" aria-label="Search commands" className="h-11 flex-1 bg-transparent text-sm outline-none focus-visible:outline-none placeholder:text-faint" />
           <kbd className="chip rounded px-1.5 font-mono text-[11px] text-muted">esc</kbd>
         </div>
-        <div className="max-h-80 overflow-y-auto p-1.5" style={{ overscrollBehavior: "contain" }}>
+        <div className="no-scrollbar max-h-[min(26rem,60vh)] overflow-y-auto p-1.5" style={{ overscrollBehavior: "contain" }}>
           {list.length === 0 && <p className="px-3 py-6 text-center text-sm text-faint">Nothing found.</p>}
           {list.map((item, i) => {
             const header = item.g !== lastGroup ? (lastGroup = item.g) : null;
@@ -94,6 +98,7 @@ const CommandMenu = ({ openState, setOpen, theme, setTheme, color, setColor }) =
               <div key={item.g + item.label}>
                 {header && <p className="px-2 pb-1 pt-2 font-mono text-[11px] uppercase tracking-wider text-faint">{header}</p>}
                 <button
+                  data-cmd-index={i}
                   onMouseMove={() => setActive(i)}
                   onClick={() => choose(item)}
                   className={`flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm ${i === active ? "bg-[color:var(--chip)] text-fg" : "text-muted"}`}
