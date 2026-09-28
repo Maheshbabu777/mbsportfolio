@@ -123,3 +123,22 @@ html.ghost-out [data-ghost-home] { opacity: 0; transform: scale(.6); }
 input:focus-visible, textarea:focus-visible { outline-offset: 0; }
 .skip-link { position: fixed; left: 12px; top: -48px; z-index: 300; transition: top .2s; }
 .skip-link:focus { top: 12px; }
+
+/* skill icons: grey that turns brand colour on hover */
+.skill-ico { color: var(--muted); transition: color .2s; }
+.group:hover .skill-ico { color: var(--brand); }
+.org-logo { filter: grayscale(1); transition: filter .3s; }
+.group:hover .org-logo { filter: none; }
+
+/* colour mode: every logo in its real colours all the time, no hover reveal */
+:root { --gh-0: transparent; --gh-1: #9be9a8; --gh-2: #40c463; --gh-3: #30a14e; --gh-4: #216e39; }
+.dark { --gh-1: #0e4429; --gh-2: #006d32; --gh-3: #26a641; --gh-4: #39d353; }
+.colorful .skill-ico, .colorful .group:hover .skill-ico { color: var(--brand); transition: none; }
+.colorful .org-logo, .colorful .group:hover .org-logo { filter: none; transition: none; }
+.colorful .brand-li { color: #0A66C2; }
+.colorful .gh-cell { opacity: 1 !important; }
+.colorful .gh-cell[data-level="0"] { background: transparent; }
+.colorful .gh-cell[data-level="1"] { background: var(--gh-1); }
+.colorful .gh-cell[data-level="2"] { background: var(--gh-2); }
+.colorful .gh-cell[data-level="3"] { background: var(--gh-3); }
+.colorful .gh-cell[data-level="4"] { background: var(--gh-4); }

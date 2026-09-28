@@ -14,7 +14,7 @@ import { wireSounds } from "./components/sound";
 import Footer from "./components/Footer";
 import CommandMenu from "./components/CommandMenu";
 import Game from "./components/Game";
-import { applyTheme, getInitialTheme } from "./components/theme";
+import { applyColor, applyTheme, getInitialColor, getInitialTheme } from "./components/theme";
 import { isContactPath, scrollToId } from "./components/nav";
 
 const useLenis = () => {
@@ -82,6 +82,8 @@ const useScrollReset = () => {
 const App = () => {
   const [theme, setTheme] = useState(getInitialTheme);
   const [menu, setMenu] = useState(false);
+  const [color, setColor] = useState(getInitialColor);
+  useEffect(() => applyColor(color), [color]);
   useEffect(() => applyTheme(theme), []);
   useLenis();
   useEffect(() => wireSounds(), []);
@@ -91,13 +93,13 @@ const App = () => {
     <>
       <a href="#main" className="skip-link btn-dark rounded-md px-3 py-1.5 text-sm">Skip to content</a>
       <Cursor />
-      <Header theme={theme} setTheme={setTheme} openMenu={() => setMenu(true)} />
+      <Header theme={theme} setTheme={setTheme} color={color} setColor={setColor} openMenu={() => setMenu(true)} />
       <Routes>
         <Route path="/contact" element={<ContactPage />} />
         <Route path="*" element={<Home />} />
       </Routes>
       <Game />
-      <CommandMenu openState={menu} setOpen={setMenu} theme={theme} setTheme={setTheme} />
+      <CommandMenu openState={menu} setOpen={setMenu} theme={theme} setTheme={setTheme} color={color} setColor={setColor} />
     </>
   );
 };

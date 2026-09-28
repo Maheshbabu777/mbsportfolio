@@ -19,3 +19,10 @@ export const toggleTheme = (current, set) => {
   applyTheme(next);
   set(next);
 };
+
+const CKEY = "mb-color";
+export const getInitialColor = () => { try { return localStorage.getItem(CKEY) === "on"; } catch { return false; } };
+export const applyColor = (on) => {
+  document.documentElement.classList.toggle("colorful", on);
+  try { localStorage.setItem(CKEY, on ? "on" : "off"); } catch { /* ignore */ }
+};

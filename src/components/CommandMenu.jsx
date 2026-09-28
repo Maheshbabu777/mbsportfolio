@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { profile } from "../data";
-import { Arrow, Check, Copy, File, Github, LinkedIn, Moon, Paper, Search, SoundOn, XLogo } from "./Icons";
+import { Arrow, Check, Copy, File, Github, LinkedIn, Moon, Paper, Search, SoundOn, XLogo, Palette } from "./Icons";
 import { setSound, soundOn } from "./sound";
 import { useNav } from "./nav";
 import { toggleTheme } from "./theme";
@@ -12,7 +12,7 @@ const open = (url) => {
   document.body.appendChild(a); a.click(); a.remove();
 };
 
-const CommandMenu = ({ openState, setOpen, theme, setTheme }) => {
+const CommandMenu = ({ openState, setOpen, theme, setTheme, color, setColor }) => {
   const [q, setQ] = useState("");
   const [active, setActive] = useState(0);
   const [copied, setCopied] = useState(false);
@@ -38,9 +38,10 @@ const CommandMenu = ({ openState, setOpen, theme, setTheme }) => {
     { g: "Links", label: "Semlogic live demo", icon: Arrow, run: () => open("https://semlogic.vercel.app/") },
     { g: "Actions", label: "Copy email", icon: copied ? Check : Copy, keep: true, run: async () => { try { await navigator.clipboard.writeText(profile.email); setCopied(true); setTimeout(() => setCopied(false), 1400); } catch { /* ignore */ } } },
     { g: "Actions", label: soundOn() ? "Mute sounds" : "Turn sounds on", icon: SoundOn, run: () => setSound(!soundOn()) },
+    { g: "Actions", label: color ? "Colour mode off" : "Colour mode on", icon: Palette, run: () => setColor(!color) },
     { g: "Actions", label: "Play: catch the ghost", run: () => setTimeout(startGhostGame, 50) },
     { g: "Actions", label: theme === "dark" ? "Light mode" : "Dark mode", icon: Moon, run: () => toggleTheme(theme, setTheme) },
-  ], [theme, copied, nav]);
+  ], [theme, copied, nav, color]);
 
   const list = items.filter((i) => i.label.toLowerCase().includes(q.toLowerCase()));
 

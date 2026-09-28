@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import Logo from "./Logo";
 import { useNav } from "./nav";
 import { startGhostGame } from "./Game";
-import { Moon, Search, SoundOff, SoundOn, Sun } from "./Icons";
+import { Moon, Palette, Search, SoundOff, SoundOn, Sun } from "./Icons";
 import { onSoundChange, setSound, soundOn } from "./sound";
 import { toggleTheme } from "./theme";
 
-const Header = ({ theme, setTheme, openMenu }) => {
+const Header = ({ theme, setTheme, color, setColor, openMenu }) => {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 8);
@@ -61,6 +61,9 @@ const Header = ({ theme, setTheme, openMenu }) => {
           <div className="chip flex items-center rounded-full p-0.5">
             <button onClick={() => setSound(!sound)} className="grid size-7 place-items-center rounded-full transition-colors hover:bg-[color:var(--bg)]" aria-label={sound ? "Mute sounds" : "Turn sounds on"} aria-pressed={sound}>
               {sound ? <SoundOn className="size-4" /> : <SoundOff className="size-4 text-muted" />}
+            </button>
+            <button onClick={() => setColor(!color)} className={`grid size-7 place-items-center rounded-full transition-colors hover:bg-[color:var(--bg)] ${color ? "" : "text-muted"}`} aria-label={color ? "Turn off colour mode" : "Show logos in real colours"} aria-pressed={color} title="Colour mode">
+              <Palette className="size-4" on={color} />
             </button>
             <button onClick={() => toggleTheme(theme, setTheme)} className="grid size-7 place-items-center rounded-full transition-colors hover:bg-[color:var(--bg)]" aria-label="Toggle theme">
               {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}

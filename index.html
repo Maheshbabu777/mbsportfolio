@@ -22,6 +22,7 @@
       try {
         var t = localStorage.getItem("mb-theme");
         if (t === "dark" || (!t && matchMedia("(prefers-color-scheme: dark)").matches)) document.documentElement.classList.add("dark");
+        if (localStorage.getItem("mb-color") === "on") document.documentElement.classList.add("colorful");
       } catch (e) {}
     </script>
   </head>

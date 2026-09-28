@@ -32,3 +32,12 @@ export const Send = (p) => <I {...p} d="M21 3 10 14M21 3l-7 18-4-7-7-4Z" />;
 export const XLogo = ({ className = "size-4" }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true"><path d="M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z" /></svg>
 );
+export const Palette = ({ className = "size-4", on }) => (
+  <svg viewBox="0 0 24 24" className={className} aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.6">
+    <path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.8 1.8-1.7 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-.9.8-1.7 1.7-1.7H16a5 5 0 0 0 5-5C21 6.3 17 3 12 3Z" />
+    <circle cx="7.5" cy="11" r="1.4" fill={on ? "#EE4C2C" : "currentColor"} stroke="none" />
+    <circle cx="10" cy="7" r="1.4" fill={on ? "#FFD21E" : "currentColor"} stroke="none" />
+    <circle cx="14.5" cy="7" r="1.4" fill={on ? "#40c463" : "currentColor"} stroke="none" />
+    <circle cx="17" cy="11" r="1.4" fill={on ? "#0A66C2" : "currentColor"} stroke="none" />
+  </svg>
+);

@@ -71,7 +71,8 @@ const Activity = () => {
                     >
                       {d && d.level > 0 && (
                         <span
-                          className="absolute inset-0 rounded-[2px] bg-fg transition-opacity duration-500"
+                          data-level={d.level}
+                          className="gh-cell absolute inset-0 rounded-[2px] bg-fg transition-opacity duration-500"
                           style={{ opacity: inView ? LEVEL_OPACITY[d.level] : 0, transitionDelay: `${wi * 12}ms` }}
                         />
                       )}
@@ -85,7 +86,7 @@ const Activity = () => {
             <span className="h-4">{hover ? `${hover.count} on ${new Date(hover.date).toDateString().slice(4)}` : <a href={profile.github} target="_blank" rel="noopener noreferrer" className="ulink hover:text-fg">@{profile.githubUser}</a>}</span>
             <span className="flex items-center gap-1">less
               {LEVEL_OPACITY.map((o, i) => (
-                <span key={i} className="relative size-[10px] rounded-[2px] bg-[color:var(--line)]"><span className="absolute inset-0 rounded-[2px] bg-fg" style={{ opacity: o }} /></span>
+                <span key={i} className="relative size-[10px] rounded-[2px] bg-[color:var(--line)]"><span data-level={i} className="gh-cell absolute inset-0 rounded-[2px] bg-fg" style={{ opacity: o }} /></span>
               ))} more</span>
           </div>
         </div>

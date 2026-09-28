@@ -85,7 +85,7 @@ const Contact = () => {
         <Reveal className="grid gap-2 sm:grid-cols-3">
           <Route dark onClick={copyEmail} label={`Copy email address ${profile.email}`} icon={copied ? <Check className="size-4" /> : <Mail className="size-4" />} title={copied ? "Copied" : "Email"} sub={copied ? profile.email : "click to copy"} />
           <Route href={profile.x} icon={<XLogo className="size-4" />} title="DM me on X" sub={profile.xHandle} />
-          <Route href={profile.linkedin} icon={<LinkedIn className="size-4" />} title="LinkedIn" sub="maheshbabu-v" />
+          <Route href={profile.linkedin} icon={<LinkedIn className="brand-li size-4" />} title="LinkedIn" sub="maheshbabu-v" />
         </Reveal>
       </div>
 

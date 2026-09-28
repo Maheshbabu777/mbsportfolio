@@ -108,3 +108,9 @@ export const LINE = {
 "agent": "M5 8h14v11H5zM12 4v4M9 13v1M15 13v1M2 12v3M22 12v3",
 "eval": "M4 20V10M10 20V4M16 20v-7M22 20H2"
 };
+
+// real colours used in colour mode for marks that have no hex above (null means "use the text colour")
+export const REAL = {
+  aws: "#FF9900", kiro: "#9046FF", antigravity: "#4285F4", chroma: "#FF6446", openjdk: "#E76F00",
+  db: "#336791", codex: null, github: null, githubcopilot: null, vercel: null, numpy: "#4DABCF", pandas: "#6E56CF",
+};

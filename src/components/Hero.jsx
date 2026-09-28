@@ -100,7 +100,7 @@ const Hero = () => (
     <div className="hline px-4 py-5 sm:px-6">
       <Reveal className="flex flex-wrap gap-2">
         <Btn href={profile.github} dark><Github className="size-3.5" /> GitHub</Btn>
-        <Btn href={profile.linkedin} dark><LinkedIn className="size-3.5" /> LinkedIn</Btn>
+        <Btn href={profile.linkedin} dark><LinkedIn className="brand-li size-3.5" /> LinkedIn</Btn>
         <Btn href={profile.x} dark><XLogo className="size-3.5" /> X</Btn>
         <Btn href={`mailto:${profile.email}`} dark><Mail className="size-3.5" /> Email</Btn>
       </Reveal>
