@@ -53,7 +53,6 @@ const toSvg = (rows, fill, line) => {
 
 const Cursor = () => {
   const canvas = useRef(null);
-  const spot = useRef(null);
   const chip = useRef(null);
   const [label, setLabel] = useState("");
 
@@ -79,7 +78,7 @@ const Cursor = () => {
     const ctx = c.getContext("2d");
     const G = 8;
     let sparks = [], dpr = 1, running = false, raf = 0;
-    let mx = -500, my = -500, sx = -500, sy = -500, cx = -500, cy = -500;
+    let mx = -500, my = -500, cx = -500, cy = -500;
 
     const size = () => {
       dpr = window.devicePixelRatio || 1;
@@ -89,10 +88,8 @@ const Cursor = () => {
     size();
 
     const loop = () => {
-      // spotlight eases behind the pointer, the label chip sticks closer
-      sx += (mx - sx) * 0.14; sy += (my - sy) * 0.14;
+      // the label chip eases after the pointer
       cx += (mx - cx) * 0.35; cy += (my - cy) * 0.35;
-      if (spot.current) { spot.current.style.setProperty("--sx", `${sx}px`); spot.current.style.setProperty("--sy", `${sy}px`); }
       if (chip.current) chip.current.style.transform = `translate3d(${Math.round(cx + 14)}px, ${Math.round(cy + 20)}px, 0)`;
 
       ctx.clearRect(0, 0, innerWidth, innerHeight);
@@ -109,13 +106,13 @@ const Cursor = () => {
         });
         ctx.globalAlpha = 1;
       }
-      const settled = Math.abs(mx - sx) < 0.5 && Math.abs(my - sy) < 0.5 && Math.abs(mx - cx) < 0.5 && !sparks.length;
+      const settled = Math.abs(mx - cx) < 0.5 && Math.abs(my - cy) < 0.5 && !sparks.length;
       if (settled) running = false; else raf = requestAnimationFrame(loop);
     };
     const kick = () => { if (!running) { running = true; raf = requestAnimationFrame(loop); } };
 
     const move = (e) => {
-      if (sx < -400) { sx = cx = e.clientX; sy = cy = e.clientY; }
+      if (cx < -400) { cx = e.clientX; cy = e.clientY; }
       mx = e.clientX; my = e.clientY;
       const t = e.target.closest?.("[data-cursor]");
       setLabel(t ? t.getAttribute("data-cursor") : "");
@@ -145,8 +142,6 @@ const Cursor = () => {
 
   return (
     <>
-      {/* dot grid that only exists around the pointer */}
-      <div ref={spot} className="cursor-spot pointer-events-none fixed inset-0 -z-10" aria-hidden="true" />
       <canvas ref={canvas} className="pointer-events-none fixed inset-0 -z-10 h-screen w-screen" aria-hidden="true" />
       {/* context label, e.g. "open", "expand" */}
       <div ref={chip} className="pointer-events-none fixed left-0 top-0 z-[200]" aria-hidden="true">

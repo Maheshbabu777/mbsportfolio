@@ -3,13 +3,22 @@ import { profile } from "../data";
 import { Arrow, Check, Copy, File, Github, LinkedIn, Moon, Paper, Search } from "./Icons";
 import { toggleTheme } from "./theme";
 
+// the menu pauses smooth scroll while open, so resume it before jumping
 const go = (id) => {
   const el = document.getElementById(id);
   if (!el) return;
-  if (window.__lenis) window.__lenis.scrollTo(el, { offset: -56 });
-  else el.scrollIntoView({ behavior: "smooth" });
+  const lenis = window.__lenis;
+  lenis?.start();
+  requestAnimationFrame(() => {
+    if (lenis) lenis.scrollTo(el, { offset: -56 });
+    else window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 56, behavior: "smooth" });
+  });
 };
-const open = (url) => window.open(url, "_blank", "noopener");
+const open = (url) => {
+  const a = document.createElement("a");
+  a.href = url; a.target = "_blank"; a.rel = "noopener noreferrer";
+  document.body.appendChild(a); a.click(); a.remove();
+};
 
 const CommandMenu = ({ openState, setOpen, theme, setTheme }) => {
   const [q, setQ] = useState("");
@@ -51,7 +60,7 @@ const CommandMenu = ({ openState, setOpen, theme, setTheme }) => {
 
   useEffect(() => setActive(0), [q]);
 
-  const choose = (item) => { item.run(); if (!item.keep) setOpen(false); };
+  const choose = (item) => { if (!item.keep) setOpen(false); item.run(); };
 
   const onKey = (e) => {
     if (e.key === "ArrowDown") { e.preventDefault(); setActive((a) => Math.min(a + 1, list.length - 1)); }

@@ -109,13 +109,3 @@ body {
 }
 .glass { background: color-mix(in srgb, var(--bg) 94%, transparent); }
 
-/* pointer spotlight: a dot grid revealed only near the cursor */
-.cursor-spot {
-  --sx: -500px; --sy: -500px;
-  background-image: radial-gradient(var(--fg) 1px, transparent 1.2px);
-  background-size: 12px 12px;
-  opacity: .22;
-  -webkit-mask-image: radial-gradient(circle 150px at var(--sx) var(--sy), #000 0%, transparent 100%);
-  mask-image: radial-gradient(circle 150px at var(--sx) var(--sy), #000 0%, transparent 100%);
-}
-@media (pointer: coarse) { .cursor-spot { display: none; } }
