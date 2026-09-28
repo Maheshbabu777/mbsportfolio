@@ -13,20 +13,8 @@ export const applyTheme = (t) => {
   try { localStorage.setItem(KEY, t); } catch { /* ignore */ }
 };
 
-// circular wipe from the click point using the View Transitions API
-export const toggleTheme = (current, set, e) => {
+export const toggleTheme = (current, set) => {
   const next = current === "dark" ? "light" : "dark";
-  const run = () => { applyTheme(next); set(next); };
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (!document.startViewTransition || reduce) return run();
-  const x = e?.clientX ?? window.innerWidth - 40;
-  const y = e?.clientY ?? 30;
-  const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
-  const t = document.startViewTransition(run);
-  t.ready.then(() => {
-    document.documentElement.animate(
-      { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${r}px at ${x}px ${y}px)`] },
-      { duration: 650, easing: "cubic-bezier(.7,0,.2,1)", pseudoElement: "::view-transition-new(root)" }
-    );
-  });
+  applyTheme(next);
+  set(next);
 };

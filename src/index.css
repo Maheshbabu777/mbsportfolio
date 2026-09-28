@@ -101,8 +101,6 @@ body {
 .avatar.show-photo .avatar-photo { clip-path: inset(0); visibility: visible; transition: clip-path .5s steps(10), visibility 0s; }
 .dark .avatar-dither { filter: invert(1); }
 
-/* theme transition via view transitions */
-::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
 
 @media (prefers-reduced-motion: reduce) {
   .reveal, .word, .swap-enter { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
