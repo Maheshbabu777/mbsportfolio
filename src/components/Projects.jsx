@@ -48,11 +48,11 @@ const FraudChart = ({ models }) => {
 };
 
 const Media = ({ p }) => {
-  const tilt = useTilt();
+  const { ref: tiltRef, onMove, onLeave } = useTilt();
   return (
-    <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-line bg-card" onMouseMove={tilt.onMove} onMouseLeave={tilt.onLeave}>
+    <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-line bg-card" onMouseMove={onMove} onMouseLeave={onLeave}>
       <div className="halftone absolute inset-0" />
-      <div ref={tilt.ref} className="relative h-full transition-transform duration-300 ease-out will-change-transform">
+      <div ref={tiltRef} className="relative h-full transition-transform duration-300 ease-out will-change-transform">
         {p.kind === "image" ? (
           <div className="h-full p-3">
             <img src={semlogic} alt={`${p.name} screenshot`} className="size-full rounded-lg border border-line object-cover object-top shadow-md" loading="lazy" />
@@ -77,9 +77,9 @@ const Card = ({ p, i }) => (
       </div>
       <div className="flex shrink-0 gap-1.5">
         {p.live && (
-          <a href={p.live} target="_blank" rel="noopener noreferrer" aria-label={`${p.name} live demo`} className="chip inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs">Live <Arrow className="size-3" /></a>
+          <a href={p.live} target="_blank" rel="noopener noreferrer" aria-label={`${p.name} live demo`} className="chip inline-flex min-h-6 items-center gap-1 rounded-md px-2 py-1 text-xs">Live <Arrow className="size-3" /></a>
         )}
-        <a href={p.code} target="_blank" rel="noopener noreferrer" aria-label={`${p.name} source code`} className="chip inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs"><Github className="size-3" /> Code</a>
+        <a href={p.code} target="_blank" rel="noopener noreferrer" aria-label={`${p.name} source code`} className="chip inline-flex min-h-6 items-center gap-1 rounded-md px-2 py-1 text-xs"><Github className="size-3" /> Code</a>
       </div>
     </div>
     <p className="text-sm leading-relaxed text-muted">{p.desc}</p>

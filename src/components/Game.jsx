@@ -38,6 +38,7 @@ const Game = () => {
   };
 
   const start = useCallback(() => {
+    document.activeElement?.blur?.(); // the Play button should not keep a focus ring after Esc
     const s = st.current;
     const logo = document.querySelector("[data-ghost-home]")?.getBoundingClientRect();
     s.x = logo ? logo.left : 40; s.y = logo ? logo.top : 20;

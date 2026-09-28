@@ -77,7 +77,7 @@ const Contact = () => {
         <Reveal as="p" delay={80} className="mt-2 text-sm text-muted">Roles, internships, a project idea, or a question about something I've built. All welcome.</Reveal>
       </div>
       <div className="mt-5 flex items-center justify-between border-y border-dashed border-line px-4 py-2.5 sm:px-6">
-        <Link to="/" className="group inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-fg">
+        <Link to="/" className="group inline-flex min-h-8 items-center gap-1.5 text-sm text-muted transition-colors hover:text-fg">
           <ArrowRight className="size-3.5 rotate-180 transition-transform group-hover:-translate-x-0.5" /> Home
         </Link>
         <span className="chip inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-xs text-muted">

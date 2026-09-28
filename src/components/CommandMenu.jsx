@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { profile } from "../data";
 import { Arrow, Check, Copy, File, Github, LinkedIn, Moon, Paper, Search, SoundOn, XLogo, Palette } from "./Icons";
 import { setSound, soundOn } from "./sound";
@@ -18,10 +18,11 @@ const CommandMenu = ({ openState, setOpen, theme, setTheme, color, setColor }) =
   const [copied, setCopied] = useState(false);
   const input = useRef(null);
   const lastFocus = useRef(null);
+  const byKeyboard = useRef(false);
   const nav = useNav();
   const go = nav.section;
 
-  const items = useMemo(() => [
+  const items = [
     { g: "Go to", label: "About", run: () => go("about") },
     { g: "Go to", label: "Experience", run: () => go("experience") },
     { g: "Go to", label: "Projects", run: () => go("work") },
@@ -41,13 +42,13 @@ const CommandMenu = ({ openState, setOpen, theme, setTheme, color, setColor }) =
     { g: "Actions", label: color ? "Colour mode off" : "Colour mode on", icon: Palette, run: () => setColor(!color) },
     { g: "Actions", label: "Play: catch the ghost", run: () => setTimeout(startGhostGame, 50) },
     { g: "Actions", label: theme === "dark" ? "Light mode" : "Dark mode", icon: Moon, run: () => toggleTheme(theme, setTheme) },
-  ], [theme, copied, nav, color]);
+  ];
 
   const list = items.filter((i) => i.label.toLowerCase().includes(q.toLowerCase()));
 
   useEffect(() => {
     const key = (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); setOpen((o) => !o); }
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); byKeyboard.current = true; setOpen((o) => !o); }
       if (e.key === "Escape") setOpen(false);
     };
     window.addEventListener("keydown", key);
@@ -60,7 +61,12 @@ const CommandMenu = ({ openState, setOpen, theme, setTheme, color, setColor }) =
       setQ(""); setActive(0); setTimeout(() => input.current?.focus(), 10); lockScroll(true);
       return () => lockScroll(false);
     } else {
-      lastFocus.current?.focus?.(); // give focus back to whatever opened the menu
+      // give focus back to whatever opened the menu, without flashing a focus ring on it
+      // keyboard users get focus back where they were; mouse users get no leftover focus ring
+      const el = lastFocus.current;
+      const kb = byKeyboard.current;
+      byKeyboard.current = false;
+      requestAnimationFrame(() => (kb ? el?.focus?.({ preventScroll: true }) : document.activeElement?.blur?.()));
     }
   }, [openState]);
 
@@ -75,7 +81,8 @@ const CommandMenu = ({ openState, setOpen, theme, setTheme, color, setColor }) =
   const onKey = (e) => {
     if (e.key === "ArrowDown") { e.preventDefault(); setActive((a) => Math.min(a + 1, list.length - 1)); }
     if (e.key === "ArrowUp") { e.preventDefault(); setActive((a) => Math.max(a - 1, 0)); }
-    if (e.key === "Enter" && list[active]) choose(list[active]);
+    // preventDefault stops this Enter from also "clicking" the Search button once focus goes back to it
+    if (e.key === "Enter" && list[active]) { e.preventDefault(); choose(list[active]); }
     if (e.key === "Tab") e.preventDefault(); // keep focus inside the dialog, arrows move the selection
   };
 

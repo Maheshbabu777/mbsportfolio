@@ -22,13 +22,11 @@ const write = (k, v) => { try { localStorage.setItem(k, v); } catch { /* ignore 
 
 const LikeButton = () => {
   const [count, setCount] = useState(null);
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(() => read("portfolio_liked") === "true");
   const [hearts, setHearts] = useState([]);
-  const likedRef = useRef(false);
+  const likedRef = useRef(liked);
 
   useEffect(() => {
-    const has = read("portfolio_liked") === "true";
-    setLiked(has); likedRef.current = has;
     (async () => {
       try {
         const ref = doc(db, "portfolio", "likes");

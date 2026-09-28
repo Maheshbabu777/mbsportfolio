@@ -92,7 +92,7 @@ const Activity = () => {
             ))}
           </div>
           <div className="mt-3 flex items-center justify-between font-mono text-[11px] text-faint">
-            <span className="h-4">{hover ? `${hover.count} on ${new Date(hover.date).toDateString().slice(4)}` : <a href={profile.github} target="_blank" rel="noopener noreferrer" className="ulink hover:text-fg">@{profile.githubUser}</a>}</span>
+            <span className="h-4">{hover ? `${hover.count} on ${new Date(hover.date).toDateString().slice(4)}` : <a href={profile.github} target="_blank" rel="noopener noreferrer" className="ulink inline-flex min-h-6 items-center hover:text-fg">@{profile.githubUser}</a>}</span>
             <span className="flex items-center gap-1">less
               {LEVEL_OPACITY.map((o, i) => (
                 <span key={i} className="relative size-[10px] rounded-[2px] bg-[color:var(--line)]"><span data-level={i} className="gh-cell absolute inset-0 rounded-[2px] bg-fg" style={{ opacity: o }} /></span>

@@ -38,7 +38,7 @@ const Row = ({ e, i }) => {
             </ul>
             <div className="mt-4 flex flex-wrap items-center gap-1.5">
               {e.tags.map((t) => <span key={t} className="chip rounded-md px-2 py-0.5 font-mono text-[11px] text-muted">{t}</span>)}
-              <a href={e.link} target="_blank" rel="noopener noreferrer" className="ml-auto inline-flex items-center gap-1 text-xs text-muted ulink hover:text-fg">
+              <a href={e.link} target="_blank" rel="noopener noreferrer" className="ml-auto inline-flex min-h-6 items-center gap-1 text-xs text-muted ulink hover:text-fg">
                 {e.link.replace(/^https?:\/\/(www\.)?/, "").split("/")[0]} <Arrow className="size-3" />
               </a>
             </div>
