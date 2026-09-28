@@ -31,7 +31,6 @@ const Skills = () => (
             {g.items.map(([name, k]) => (
               <span
                 key={name}
-                data-sound
                 className="group chip inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-[13px] transition-[transform,border-color] duration-200 hover:-translate-y-0.5 hover:border-[color:var(--faint)]"
                 style={{ "--brand": BRAND[k]?.hex || "var(--fg)" }}
               >

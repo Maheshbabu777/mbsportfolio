@@ -94,7 +94,8 @@ export const PixelMorph = ({ text, className = "" }) => {
   };
   useEffect(() => () => timers.current.forEach(clearTimeout), []);
   return (
-    <span onMouseEnter={play} className={className} aria-label={text}>
+    <span onMouseEnter={play} className={className}>
+      <span className="sr-only">{text}</span>
       {text.split("").map((ch, i) => (
         <span key={i} aria-hidden="true" style={{ fontFamily: `"Geist Pixel ${FACES[faces[i]]}", monospace` }}>{ch}</span>
       ))}

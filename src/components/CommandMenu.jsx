@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { profile } from "../data";
 import { Arrow, Check, Copy, File, Github, LinkedIn, Moon, Paper, Search, SoundOn, XLogo } from "./Icons";
-import { play, setSound, soundOn } from "./sound";
+import { setSound, soundOn } from "./sound";
 import { useNav } from "./nav";
 import { toggleTheme } from "./theme";
 import { startGhostGame } from "./Game";
@@ -17,6 +17,7 @@ const CommandMenu = ({ openState, setOpen, theme, setTheme }) => {
   const [active, setActive] = useState(0);
   const [copied, setCopied] = useState(false);
   const input = useRef(null);
+  const lastFocus = useRef(null);
   const nav = useNav();
   const go = nav.section;
 
@@ -53,8 +54,13 @@ const CommandMenu = ({ openState, setOpen, theme, setTheme }) => {
   }, []);
 
   useEffect(() => {
-    if (openState) { play("open"); setQ(""); setActive(0); setTimeout(() => input.current?.focus(), 10); window.__lenis?.stop(); }
-    else window.__lenis?.start();
+    if (openState) {
+      lastFocus.current = document.activeElement;
+      setQ(""); setActive(0); setTimeout(() => input.current?.focus(), 10); window.__lenis?.stop();
+    } else {
+      window.__lenis?.start();
+      lastFocus.current?.focus?.(); // give focus back to whatever opened the menu
+    }
   }, [openState]);
 
   useEffect(() => setActive(0), [q]);
@@ -65,17 +71,18 @@ const CommandMenu = ({ openState, setOpen, theme, setTheme }) => {
     if (e.key === "ArrowDown") { e.preventDefault(); setActive((a) => Math.min(a + 1, list.length - 1)); }
     if (e.key === "ArrowUp") { e.preventDefault(); setActive((a) => Math.max(a - 1, 0)); }
     if (e.key === "Enter" && list[active]) choose(list[active]);
+    if (e.key === "Tab") e.preventDefault(); // keep focus inside the dialog, arrows move the selection
   };
 
   if (!openState) return null;
   let lastGroup = "";
   return (
     <div className="fixed inset-0 z-[100] flex items-start justify-center bg-black/30 px-4 pt-[14vh] backdrop-blur-[2px]" onClick={() => setOpen(false)}>
-      <div className="swap-enter w-full max-w-md overflow-hidden rounded-xl border border-line bg-card shadow-2xl" onClick={(e) => e.stopPropagation()} role="dialog" aria-label="Command menu">
+      <div className="swap-enter w-full max-w-md overflow-hidden rounded-xl border border-line bg-card shadow-2xl" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label="Command menu">
         <div className="flex items-center gap-2 border-b border-line px-3">
           <Search className="size-4 text-faint" />
-          <input ref={input} value={q} onChange={(e) => setQ(e.target.value)} onKeyDown={onKey} placeholder="Type a command or search" className="h-11 flex-1 bg-transparent text-sm outline-none placeholder:text-faint" />
-          <kbd className="chip rounded px-1.5 font-mono text-[10px] text-muted">esc</kbd>
+          <input ref={input} value={q} onChange={(e) => setQ(e.target.value)} onKeyDown={onKey} placeholder="Type a command or search" aria-label="Search commands" className="h-11 flex-1 bg-transparent text-sm outline-none placeholder:text-faint" />
+          <kbd className="chip rounded px-1.5 font-mono text-[11px] text-muted">esc</kbd>
         </div>
         <div className="max-h-80 overflow-y-auto p-1.5" data-lenis-prevent>
           {list.length === 0 && <p className="px-3 py-6 text-center text-sm text-faint">Nothing found.</p>}
@@ -84,7 +91,7 @@ const CommandMenu = ({ openState, setOpen, theme, setTheme }) => {
             const Icon = item.icon;
             return (
               <div key={item.g + item.label}>
-                {header && <p className="px-2 pb-1 pt-2 font-mono text-[10px] uppercase tracking-wider text-faint">{header}</p>}
+                {header && <p className="px-2 pb-1 pt-2 font-mono text-[11px] uppercase tracking-wider text-faint">{header}</p>}
                 <button
                   onMouseMove={() => setActive(i)}
                   onClick={() => choose(item)}
@@ -92,7 +99,7 @@ const CommandMenu = ({ openState, setOpen, theme, setTheme }) => {
                 >
                   {Icon ? <Icon className="size-4" /> : <span className="grid size-4 place-items-center"><span className="size-1 bg-current" /></span>}
                   {item.label}
-                  {i === active && <span className="ml-auto font-mono text-[10px] text-faint">↵</span>}
+                  {i === active && <span className="ml-auto font-mono text-[11px] text-faint">↵</span>}
                 </button>
               </div>
             );

@@ -24,27 +24,27 @@ const Roles = () => {
 
 const Avatar = () => {
   const [photoOn, setPhotoOn] = useState(false);
+  const flip = () => setPhotoOn((v) => !v);
   return (
-    <div className="flex flex-col items-center gap-2">
-      <div
+    <div className="flex flex-col items-center gap-1">
+      <button
+        type="button"
+        onClick={flip}
         className="rounded-xl border border-line bg-white p-[3px] shadow-[0_1px_0_var(--line)]"
         data-cursor={photoOn ? "drawing" : "real me"}
-        onClick={() => setPhotoOn((v) => !v)}
-        role="button"
-        aria-label="Switch avatar"
-      >
-        <div className={`avatar relative size-[98px] overflow-hidden rounded-[9px] bg-white sm:size-[114px] ${photoOn ? "show-photo" : ""}`}>
-          <img src={line} alt="Illustration of Mahesh" className="absolute inset-0 block size-full object-cover" draggable="false" />
-          <img src={photo} alt="Photo of Mahesh" className="avatar-photo absolute inset-0 block size-full object-cover" draggable="false" />
-        </div>
-      </div>
-      <button
-        onClick={() => setPhotoOn((v) => !v)}
-        className={`relative h-4 w-7 rounded-full border border-line transition-colors ${photoOn ? "btn-dark" : "chip"}`}
-        aria-label="Toggle real photo"
+        aria-label={photoOn ? "Show illustration" : "Show real photo"}
         aria-pressed={photoOn}
       >
-        <span className={`absolute top-1/2 size-2.5 -translate-y-1/2 rounded-full transition-all duration-300 ${photoOn ? "left-[14px] bg-[color:var(--bg)]" : "left-[2px] bg-[color:var(--faint)]"}`} />
+        <span className={`avatar relative block size-[98px] overflow-hidden rounded-[9px] bg-white sm:size-[114px] ${photoOn ? "show-photo" : ""}`}>
+          <img src={line} alt="Illustration of Mahesh" width="114" height="114" className="absolute inset-0 block size-full object-cover" draggable="false" />
+          <img src={photo} alt="" width="114" height="114" className="avatar-photo absolute inset-0 block size-full object-cover" draggable="false" />
+        </span>
+      </button>
+      {/* small visual switch, padded so the tap target is at least 24px */}
+      <button type="button" onClick={flip} className="p-1.5" aria-label="Toggle real photo" aria-pressed={photoOn} tabIndex={-1}>
+        <span className={`relative block h-4 w-7 rounded-full border border-line transition-colors ${photoOn ? "btn-dark" : "chip"}`}>
+          <span className={`absolute top-1/2 size-2.5 -translate-y-1/2 rounded-full transition-all duration-300 ${photoOn ? "left-[14px] bg-[color:var(--bg)]" : "left-[2px] bg-[color:var(--deco)]"}`} />
+        </span>
       </button>
     </div>
   );
@@ -68,7 +68,7 @@ const Hero = () => (
     <div className="relative h-24 overflow-hidden border-b border-dashed border-line sm:h-32">
       <div className="dots-bg absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent,black_60%)]" />
       <div className="absolute bottom-2 right-4 flex items-center gap-2.5 font-mono text-[11px] text-muted sm:right-6">
-        <span className="pulse-dot mr-0.5 inline-block size-1.5 rounded-full bg-fg text-fg" />
+        <span className="status-dot" aria-hidden="true" />
         {profile.location} · <Clock />
       </div>
     </div>

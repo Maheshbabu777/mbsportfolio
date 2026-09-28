@@ -31,7 +31,7 @@ const FraudChart = ({ models }) => {
           <div className="flex justify-between"><span className={i === 0 ? "text-fg" : "text-muted"}>{m.n}</span><span className={i === 0 ? "text-fg" : "text-muted"}>{m.auc.toFixed(3)}</span></div>
           <div className="h-2 overflow-hidden rounded-sm bg-[color:var(--line)]">
             <div
-              className={`h-full rounded-sm transition-[width] duration-[1200ms] ease-[cubic-bezier(.2,.7,.2,1)] ${i === 0 ? "bg-fg" : "bg-faint"}`}
+              className={`h-full rounded-sm transition-[width] duration-[1200ms] ease-[cubic-bezier(.2,.7,.2,1)] ${i === 0 ? "bg-fg" : "bg-[color:var(--deco)]"}`}
               style={{ width: inView ? `${((m.auc - min) / (max - min)) * 100}%` : "0%", transitionDelay: `${200 + i * 150}ms` }}
             />
           </div>
@@ -78,9 +78,9 @@ const Card = ({ p, i }) => (
       </div>
       <div className="flex shrink-0 gap-1.5">
         {p.live && (
-          <a href={p.live} target="_blank" rel="noopener noreferrer" className="chip inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs">Live <Arrow className="size-3" /></a>
+          <a href={p.live} target="_blank" rel="noopener noreferrer" aria-label={`${p.name} live demo`} className="chip inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs">Live <Arrow className="size-3" /></a>
         )}
-        <a href={p.code} target="_blank" rel="noopener noreferrer" className="chip inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs"><Github className="size-3" /> Code</a>
+        <a href={p.code} target="_blank" rel="noopener noreferrer" aria-label={`${p.name} source code`} className="chip inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs"><Github className="size-3" /> Code</a>
       </div>
     </div>
     <p className="text-sm leading-relaxed text-muted">{p.desc}</p>
@@ -89,7 +89,7 @@ const Card = ({ p, i }) => (
         {p.stats.map((s) => (
           <div key={s.k} className="px-2 py-2">
             <div className="font-mono text-[13px]">{s.v}</div>
-            <div className="text-[10px] uppercase tracking-wider text-faint">{s.k}</div>
+            <div className="text-[11px] uppercase tracking-wider text-faint">{s.k}</div>
           </div>
         ))}
       </div>

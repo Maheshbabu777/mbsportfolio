@@ -54,10 +54,10 @@ const Activity = () => {
     <Section id="activity" title="Activity" aside={total != null ? `${total} contributions this year` : "loading"}>
       <div ref={ref} className="relative overflow-x-auto px-4 py-5 sm:px-6">
         <div className="min-w-[640px]">
-          <div className="mb-1 flex gap-[3px] font-mono text-[10px] text-faint">
+          <div className="mb-1 flex gap-[3px] font-mono text-[11px] text-faint">
             {months.map((m, i) => <span key={i} className="w-[10px] overflow-visible whitespace-nowrap">{m}</span>)}
           </div>
-          <div className="flex gap-[3px]">
+          <div className="flex gap-[3px]" role="img" aria-label={total != null ? `GitHub contribution graph, ${total} contributions in the last year` : "GitHub contribution graph"}>
             {weeks.map((w, wi) => (
               <div key={wi} className="flex flex-col gap-[3px]">
                 {Array.from({ length: 7 }).map((_, di) => {

@@ -4,7 +4,7 @@ import Logo from "./Logo";
 import { useNav } from "./nav";
 import { startGhostGame } from "./Game";
 import { Moon, Search, SoundOff, SoundOn, Sun } from "./Icons";
-import { onSoundChange, play, setSound, soundOn } from "./sound";
+import { onSoundChange, setSound, soundOn } from "./sound";
 import { toggleTheme } from "./theme";
 
 const Header = ({ theme, setTheme, openMenu }) => {
@@ -51,18 +51,18 @@ const Header = ({ theme, setTheme, openMenu }) => {
         <nav className="flex items-center gap-1 sm:gap-2">
           <button onClick={() => nav.section("work")} className="hidden rounded-md px-2 py-1 text-sm text-muted transition-colors hover:text-fg sm:block">Work</button>
           <button onClick={() => nav.section("experience")} className="hidden rounded-md px-2 py-1 text-sm text-muted transition-colors hover:text-fg sm:block">Experience</button>
-          <Link to="/contact" className={`hidden rounded-md px-2 py-1 text-sm transition-colors hover:text-fg sm:block ${nav.onContact ? "text-fg underline decoration-[color:var(--faint)] underline-offset-4" : "text-muted"}`}>Contact</Link>
+          <Link to="/contact" className={`rounded-md px-2 py-1 text-sm transition-colors hover:text-fg ${nav.onContact ? "text-fg underline decoration-[color:var(--faint)] underline-offset-4" : "text-muted"}`}>Contact</Link>
           <button onClick={openMenu} className="chip ml-1 flex items-center gap-2 rounded-full py-1 px-2 text-sm sm:pl-2.5 sm:pr-1.5 text-muted transition-colors hover:text-fg" aria-label="Open command menu">
             <Search className="size-3.5" />
             <span className="hidden sm:inline">Search</span>
-            <kbd className="hidden rounded-full border border-line bg-bg px-1.5 font-mono text-[10px] sm:inline">{isMac ? "⌘K" : "Ctrl K"}</kbd>
+            <kbd className="hidden rounded-full border border-line bg-bg px-1.5 font-mono text-[11px] sm:inline">{isMac ? "⌘K" : "Ctrl K"}</kbd>
           </button>
           <span className="mx-1 h-5 w-px bg-line" />
           <div className="chip flex items-center rounded-full p-0.5">
             <button onClick={() => setSound(!sound)} className="grid size-7 place-items-center rounded-full transition-colors hover:bg-[color:var(--bg)]" aria-label={sound ? "Mute sounds" : "Turn sounds on"} aria-pressed={sound}>
               {sound ? <SoundOn className="size-4" /> : <SoundOff className="size-4 text-muted" />}
             </button>
-            <button onClick={() => { toggleTheme(theme, setTheme); play("toggle"); }} className="grid size-7 place-items-center rounded-full transition-colors hover:bg-[color:var(--bg)]" aria-label="Toggle theme">
+            <button onClick={() => toggleTheme(theme, setTheme)} className="grid size-7 place-items-center rounded-full transition-colors hover:bg-[color:var(--bg)]" aria-label="Toggle theme">
               {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
             </button>
           </div>

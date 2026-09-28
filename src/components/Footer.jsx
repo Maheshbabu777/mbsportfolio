@@ -60,7 +60,7 @@ const Footer = ({ compact = false }) => (
           <Link to="/contact" className="btn-dark inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium transition-transform active:scale-95"><Mail className="size-4" /> Get in touch</Link>
           <LikeButton />
         </div>
-        <button onClick={startGhostGame} className="group mx-auto mt-6 flex items-center gap-2 font-mono text-xs text-faint transition-colors hover:text-fg">
+        <button onClick={startGhostGame} className="group mx-auto mt-4 flex items-center gap-2 px-2 py-2 font-mono text-xs text-faint transition-colors hover:text-fg">
           <Logo className="h-4 w-auto transition-transform group-hover:-rotate-12" /> or go catch the ghost
         </button>
       </Reveal>

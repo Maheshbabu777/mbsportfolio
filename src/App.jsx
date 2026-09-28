@@ -46,7 +46,7 @@ const Home = () => {
   }, [state]);
   useEffect(() => { document.title = "Mahesh Babu | AI/ML Engineer"; }, []);
   return (
-    <main className="mx-auto max-w-3xl rail">
+    <main id="main" tabIndex={-1} className="mx-auto max-w-3xl rail outline-none">
       <Hero />
       <Experience />
       <Projects />
@@ -63,7 +63,7 @@ const Home = () => {
 const ContactPage = () => {
   useEffect(() => { document.title = "Contact | Mahesh Babu"; }, []);
   return (
-    <main className="mx-auto min-h-screen max-w-3xl rail">
+    <main id="main" tabIndex={-1} className="mx-auto min-h-screen max-w-3xl rail outline-none">
       <Contact />
       <Footer compact />
     </main>
@@ -89,6 +89,7 @@ const App = () => {
 
   return (
     <>
+      <a href="#main" className="skip-link btn-dark rounded-md px-3 py-1.5 text-sm">Skip to content</a>
       <Cursor />
       <Header theme={theme} setTheme={setTheme} openMenu={() => setMenu(true)} />
       <Routes>

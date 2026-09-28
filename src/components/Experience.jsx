@@ -19,7 +19,7 @@ const Row = ({ e, i }) => {
         <span className="min-w-0 flex-1">
           <span className="flex items-center gap-2 font-medium">
             {e.company}
-            {e.current && <span className="chip rounded-full px-1.5 py-px font-mono text-[10px] text-muted">now</span>}
+            {e.current && <span className="chip rounded-full px-1.5 py-px font-mono text-[11px] text-muted">now</span>}
           </span>
           <span className="block truncate text-sm text-muted">{e.role} · {e.meta}</span>
         </span>
@@ -33,7 +33,7 @@ const Row = ({ e, i }) => {
             <p className="mt-1 text-sm text-fg sm:mt-0">{e.summary}</p>
             <ul className="mt-3 space-y-2 text-sm leading-relaxed text-muted">
               {e.points.map((p) => (
-                <li key={p} className="flex gap-2.5"><span className="mt-2 size-1 shrink-0 bg-faint" />{p}</li>
+                <li key={p} className="flex gap-2.5"><span className="mt-2 size-1 shrink-0 bg-[color:var(--deco)]" aria-hidden="true" />{p}</li>
               ))}
             </ul>
             <div className="mt-4 flex flex-wrap items-center gap-1.5">

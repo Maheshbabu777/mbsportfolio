@@ -48,7 +48,7 @@ const LikeButton = () => {
   };
 
   return (
-    <button onClick={like} className="chip relative inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm" aria-label="Like this site">
+    <button onClick={like} className="chip relative inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm" aria-label={liked ? "You liked this site" : "Like this site"} aria-pressed={liked}>
       {hearts.map((id) => <Floating key={id} id={id} onDone={(x) => setHearts((h) => h.filter((y) => y !== x))} />)}
       <Heart className={`size-4 transition-transform duration-200 ${liked ? "scale-110" : ""}`} filled={liked} />
       <span className="font-mono text-xs">{count === null ? "..." : count}</span>

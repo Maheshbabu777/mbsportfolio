@@ -13,8 +13,9 @@
 :root {
   --bg: #fafaf9;
   --fg: #0a0a0a;
-  --muted: #71717a;
-  --faint: #a1a1aa;
+  --muted: #52525b;
+  --faint: #6b6b73;
+  --deco: #a1a1aa;
   --line: #e7e5e4;
   --card: #ffffff;
   --chip: #f4f4f3;
@@ -25,7 +26,8 @@
   --bg: #0a0a0a;
   --fg: #fafafa;
   --muted: #a1a1aa;
-  --faint: #52525b;
+  --faint: #85858e;
+  --deco: #52525b;
   --line: #232323;
   --card: #111111;
   --chip: #171717;
@@ -83,9 +85,8 @@ body {
 .swap-enter { animation: swap-in .5s cubic-bezier(.2,.7,.2,1) forwards; }
 @keyframes swap-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
-.pulse-dot { position: relative; }
-.pulse-dot::after { content: ""; position: absolute; inset: -3px; border-radius: 999px; border: 1px solid currentColor; animation: ping 1.8s cubic-bezier(0,0,.2,1) infinite; }
-@keyframes ping { 75%, 100% { transform: scale(2.2); opacity: 0; } }
+.status-dot { display: inline-block; width: 6px; height: 6px; border-radius: 999px; background: var(--fg); flex-shrink: 0; animation: status 2s ease-in-out infinite; }
+@keyframes status { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
 
 /* underline link */
 .ulink { background-image: linear-gradient(currentColor, currentColor); background-size: 0% 1px; background-position: 0 100%; background-repeat: no-repeat; transition: background-size .35s ease; }
@@ -103,6 +104,7 @@ body {
 
 
 @media (prefers-reduced-motion: reduce) {
+  .status-dot { animation: none; }
   .reveal, .word, .swap-enter { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
 }
 .glass { background: color-mix(in srgb, var(--bg) 94%, transparent); }
@@ -115,3 +117,9 @@ html.ghost-out [data-ghost-home] { opacity: 0; transform: scale(.6); }
 @keyframes spark { to { transform: translate(var(--dx), var(--dy)); opacity: 0; } }
 .ghost-plus { top: -34px; animation: plus .6s ease-out forwards; }
 @keyframes plus { from { opacity: 1; transform: translate(-50%, 0); } to { opacity: 0; transform: translate(-50%, -18px); } }
+
+/* keyboard focus: visible ring on everything interactive */
+:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; border-radius: 6px; }
+input:focus-visible, textarea:focus-visible { outline-offset: 0; }
+.skip-link { position: fixed; left: 12px; top: -48px; z-index: 300; transition: top .2s; }
+.skip-link:focus { top: 12px; }
