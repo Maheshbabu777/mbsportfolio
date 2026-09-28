@@ -73,7 +73,7 @@ const Contact = () => {
     <div id="contact">
       <div className="px-4 pt-8 sm:px-6">
         <Reveal as="p" className="text-2xl text-faint sm:text-[28px]">Contact</Reveal>
-        <Reveal as="h1" delay={40} className="mt-1 text-[26px] font-medium leading-tight tracking-tight sm:text-4xl">Let's talk about what you're building</Reveal>
+        <Reveal as="h1" delay={40} className="mt-1 text-[26px] font-medium leading-tight tracking-tight sm:text-4xl">Let's talk about <em className="accent">what you're building</em></Reveal>
         <Reveal as="p" delay={80} className="mt-2 text-sm text-muted">Roles, internships, a project idea, or a question about something I've built. All welcome.</Reveal>
       </div>
       <div className="mt-5 flex items-center justify-between border-y border-dashed border-line px-4 py-2.5 sm:px-6">

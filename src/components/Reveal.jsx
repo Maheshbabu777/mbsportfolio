@@ -24,16 +24,26 @@ export const Reveal = ({ as: Tag = "div", delay, className = "", children, ...re
 // word-by-word fade in, starts when scrolled into view
 export const BlurText = ({ text, className = "", start = 0, step = 28 }) => {
   const [ref, inView] = useInView();
-  const words = text.split(" ");
+  // words between *asterisks* get the italic serif accent
+  // punctuation right after the closing * stays in the normal face
+  let on = false;
+  const words = text.split(" ").map((raw) => {
+    let w = raw, tail = "";
+    if (w.startsWith("*")) { on = true; w = w.slice(1); }
+    const em = on;
+    const closeAt = w.indexOf("*");
+    if (closeAt !== -1) { on = false; tail = w.slice(closeAt + 1); w = w.slice(0, closeAt); }
+    return { w, em, tail };
+  });
   return (
     <span ref={ref} className={className}>
       {inView
-        ? words.map((w, i) => (
+        ? words.map(({ w, em, tail }, i) => (
             <span key={i} className="word" style={{ animationDelay: `${start + i * step}ms` }}>
-              {w}{i < words.length - 1 ? " " : ""}
+              {em ? <em className="accent">{w}</em> : w}{tail}{i < words.length - 1 ? "\u00a0" : ""}
             </span>
           ))
-        : <span style={{ opacity: 0 }}>{text}</span>}
+        : <span style={{ opacity: 0 }}>{text.replaceAll("*", "")}</span>}
     </span>
   );
 };

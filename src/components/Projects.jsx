@@ -3,6 +3,7 @@ import semlogic from "../assets/semlogic.webp";
 import { moreProjects, projects } from "../data";
 import Section from "./Section";
 import { Reveal } from "./Reveal";
+import Rich from "./Rich";
 import { Arrow, Battery, Github, Note } from "./Icons";
 
 
@@ -82,7 +83,7 @@ const Card = ({ p, i }) => (
         <a href={p.code} target="_blank" rel="noopener noreferrer" aria-label={`${p.name} source code`} className="chip inline-flex min-h-6 items-center gap-1 rounded-md px-2 py-1 text-xs"><Github className="size-3" /> Code</a>
       </div>
     </div>
-    <p className="text-sm leading-relaxed text-muted">{p.desc}</p>
+    <p className="text-sm leading-relaxed text-muted"><Rich text={p.desc} /></p>
     {p.stats && (
       <div className="grid grid-cols-3 divide-x divide-dashed divide-[color:var(--line)] rounded-lg border border-dashed border-line">
         {p.stats.map((s) => (

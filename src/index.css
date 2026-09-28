@@ -1,5 +1,6 @@
 @font-face { font-family: "Geist"; src: url("/fonts/Geist-Variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
 @font-face { font-family: "Geist Mono"; src: url("/fonts/GeistMono-Variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Instrument Serif"; src: url("/fonts/InstrumentSerif-Italic.woff2") format("woff2"); font-style: italic; font-weight: 400; font-display: swap; }
 @font-face { font-family: "Geist Pixel Square"; src: url("/fonts/GeistPixel-Square.woff2") format("woff2"); font-display: swap; }
 @font-face { font-family: "Geist Pixel Grid"; src: url("/fonts/GeistPixel-Grid.woff2") format("woff2"); font-display: swap; }
 @font-face { font-family: "Geist Pixel Circle"; src: url("/fonts/GeistPixel-Circle.woff2") format("woff2"); font-display: swap; }
@@ -146,3 +147,14 @@ input:focus-visible, textarea:focus-visible { outline-offset: 0; }
 .colorful .gh-cell[data-level="3"] { background: var(--gh-3); }
 .colorful .gh-cell[data-level="4"] { background: var(--gh-4); }
 
+
+/* emphasis: the few words a visitor should not miss, in an italic serif against the Geist text */
+.accent {
+  font-family: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.14em;
+  line-height: 1;
+  letter-spacing: -0.005em;
+  color: var(--fg);
+}

@@ -15,9 +15,9 @@ export const profile = {
 };
 
 export const about = [
-  "I'm Mahesh, a final-year CSE student at Lovely Professional University. I like taking an ML idea out of the notebook and turning it into something people can actually use.",
-  "Right now I'm an AI engineering intern at Perseverance AI, working on Lensy, a product that audits technical documentation for AI readiness.",
-  "Before that I did NLP research with my department, which ended up as a paper on IEEE Xplore.",
+  "I'm Mahesh, a final-year CSE student at Lovely Professional University. I like taking an ML idea out of the notebook and turning it into *something people can actually use*.",
+  "Right now I'm an AI engineering intern at *Perseverance AI*, working on Lensy, a product that audits technical documentation for AI readiness.",
+  "Before that I did NLP research with my department, which ended up as *a paper on IEEE Xplore*.",
   "I mostly write Python (PyTorch, HuggingFace, scikit-learn, FastAPI) and use Java for DSA.",
 ];
 
@@ -61,7 +61,7 @@ export const projects = [
     kind: "fraud",
     tagline: "Fraud model bake-off",
     date: "Aug 2026",
-    desc: "XGBoost, LightGBM and a custom PyTorch MLP trained and compared on 590K+ real card transactions under the same conditions. SMOTE on the training split only, so nothing leaks.",
+    desc: "XGBoost, LightGBM and a custom PyTorch MLP trained and compared on *590K+ real card transactions* under the same conditions. SMOTE on the training split only, so nothing leaks.",
     stats: [
       { k: "Test AUC", v: "0.961" },
       { k: "Recall", v: "0.59 → 0.69" },
@@ -80,7 +80,7 @@ export const projects = [
     kind: "image",
     tagline: "Semantic code search",
     date: "Apr 2026",
-    desc: "Ask a question in plain English and get back the code that matches. Transformer embeddings and ChromaDB for retrieval, a cross-encoder to rerank, all behind a FastAPI backend.",
+    desc: "Ask a question in *plain English* and get back *the code that matches*. Transformer embeddings and ChromaDB for retrieval, a cross-encoder to rerank, all behind a FastAPI backend.",
     tags: ["FastAPI", "ChromaDB", "Transformers", "Docker", "RAG"],
     code: "https://github.com/Maheshbabu777/semantic-code-search",
     live: "https://semlogic.vercel.app/",
