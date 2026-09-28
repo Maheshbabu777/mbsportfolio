@@ -111,13 +111,20 @@ const Cursor = () => {
     };
     const kick = () => { if (!running) { running = true; raf = requestAnimationFrame(loop); } };
 
+    let hovered = null;
+    const readLabel = () => {
+      const t = hovered?.closest?.("[data-cursor]");
+      setLabel(t ? t.getAttribute("data-cursor") : "");
+    };
     const move = (e) => {
       if (cx < -400) { cx = e.clientX; cy = e.clientY; }
       mx = e.clientX; my = e.clientY;
-      const t = e.target.closest?.("[data-cursor]");
-      setLabel(t ? t.getAttribute("data-cursor") : "");
+      hovered = e.target;
+      readLabel();
       kick();
     };
+    // a click can change the label under a still pointer (expand -> close), so re-read it after React updates
+    const clicked = () => requestAnimationFrame(readLabel);
     const click = (e) => {
       if (reduce) return;
       const x = Math.floor(e.clientX / G) * G + G / 2, y = Math.floor(e.clientY / G) * G + G / 2;
@@ -129,6 +136,7 @@ const Cursor = () => {
     window.addEventListener("resize", size);
     window.addEventListener("mousemove", move, { passive: true });
     window.addEventListener("mousedown", click);
+    window.addEventListener("click", clicked);
     document.addEventListener("mouseleave", leave);
     return () => {
       cancelAnimationFrame(raf); mo.disconnect();
@@ -136,6 +144,7 @@ const Cursor = () => {
       window.removeEventListener("resize", size);
       window.removeEventListener("mousemove", move);
       window.removeEventListener("mousedown", click);
+      window.removeEventListener("click", clicked);
       document.removeEventListener("mouseleave", leave);
     };
   }, []);
