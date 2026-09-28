@@ -37,9 +37,9 @@ const tone = (c, { f = 440, f2, type = "sine", t = 0, dur = 0.06, vol = 0.05 }) 
   o.stop(now + dur + 0.02);
 };
 
-// Only things you click make a sound: a short two-step 8-bit blip, plus catch/miss in the ghost game.
+// Only things you click make a sound: a soft marimba note, plus catch/miss in the ghost game.
 const SOUNDS = {
-  click: (c) => { tone(c, { f: 880, dur: 0.028, vol: 0.022, type: "square" }); tone(c, { f: 1320, t: 0.03, dur: 0.03, vol: 0.016, type: "square" }); },
+  click: (c) => { tone(c, { f: 523, dur: 0.18, vol: 0.05 }); tone(c, { f: 2093, dur: 0.05, vol: 0.014 }); },
   catch: (c) => [523, 659, 784, 1047].forEach((f, i) => tone(c, { f, t: i * 0.045, dur: 0.07, vol: 0.03, type: "square" })),
   miss: (c) => tone(c, { f: 180, f2: 110, dur: 0.12, vol: 0.035, type: "square" }),
 };

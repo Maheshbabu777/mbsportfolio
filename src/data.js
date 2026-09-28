@@ -114,8 +114,7 @@ export const skills = [
   {
     group: "ML / DL",
     items: [
-      ["PyTorch", "pytorch"], ["Hugging Face", "huggingface"], ["Scikit-learn", "scikitlearn"], ["XGBoost", "tree"],
-      ["LightGBM", "tree"], ["MLflow", "mlflow"], ["Pandas", "pandas"], ["NumPy", "numpy"],
+      ["PyTorch", "pytorch"], ["Hugging Face", "huggingface"], ["Scikit-learn", "scikitlearn"], ["MLflow", "mlflow"], ["Pandas", "pandas"], ["NumPy", "numpy"],
     ],
   },
   {
