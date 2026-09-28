@@ -49,8 +49,10 @@ const Header = ({ theme, setTheme, color, setColor, openMenu }) => {
           )}
         </div>
         <nav className="flex items-center gap-1 sm:gap-2">
-          <button onClick={() => nav.section("work")} className="hidden rounded-md px-2 py-1 text-sm text-muted transition-colors hover:text-fg sm:block">Work</button>
-          <button onClick={() => nav.section("experience")} className="hidden rounded-md px-2 py-1 text-sm text-muted transition-colors hover:text-fg sm:block">Experience</button>
+          <button onClick={startGhostGame} className="play-btn group flex items-center gap-1.5 rounded-md px-2 py-1 text-sm text-muted transition-colors hover:text-fg" data-cursor="catch the ghost" aria-label="Play catch the ghost">
+            <Logo className="play-ghost h-3.5 w-auto" />
+            Play
+          </button>
           <Link to="/contact" className={`rounded-md px-2 py-1 text-sm transition-colors hover:text-fg ${nav.onContact ? "text-fg underline decoration-[color:var(--faint)] underline-offset-4" : "text-muted"}`}>Contact</Link>
           <button onClick={openMenu} className="chip ml-1 flex items-center gap-2 rounded-full py-1 px-2 text-sm sm:pl-2.5 sm:pr-1.5 text-muted transition-colors hover:text-fg" aria-label="Open command menu">
             <Search className="size-3.5" />
