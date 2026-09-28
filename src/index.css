@@ -143,10 +143,3 @@ input:focus-visible, textarea:focus-visible { outline-offset: 0; }
 .colorful .gh-cell[data-level="3"] { background: var(--gh-3); }
 .colorful .gh-cell[data-level="4"] { background: var(--gh-4); }
 
-/* nav "Play": the mini ghost floats and wiggles on hover */
-.play-ghost { animation: float 2.4s ease-in-out infinite; }
-.play-btn:hover .play-ghost { animation: wiggle .5s steps(4) infinite; }
-@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
-@keyframes wiggle { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-12deg); } 75% { transform: rotate(12deg); } }
-html.ghost-out .play-ghost { opacity: 0; }
-@media (prefers-reduced-motion: reduce) { .play-ghost, .play-btn:hover .play-ghost { animation: none; } }

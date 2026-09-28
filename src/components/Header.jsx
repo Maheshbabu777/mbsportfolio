@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Logo from "./Logo";
-import { useNav } from "./nav";
+import { scrollToId, useNav } from "./nav";
 import { startGhostGame } from "./Game";
-import { Moon, Palette, Search, SoundOff, SoundOn, Sun } from "./Icons";
+import { ArrowRight, Moon, Palette, Search, SoundOff, SoundOn, Sun } from "./Icons";
 import { onSoundChange, setSound, soundOn } from "./sound";
 import { toggleTheme } from "./theme";
 
@@ -16,19 +16,6 @@ const Header = ({ theme, setTheme, color, setColor, openMenu }) => {
     return () => window.removeEventListener("scroll", on);
   }, []);
 
-  // one-time nudge so people find the game
-  const [hint, setHint] = useState(false);
-  useEffect(() => {
-    let seen = false;
-    try { seen = localStorage.getItem("mb-ghost-hint") === "1"; } catch { /* ignore */ }
-    if (seen) return;
-    const a = setTimeout(() => setHint(true), 5000);
-    const b = setTimeout(() => { setHint(false); try { localStorage.setItem("mb-ghost-hint", "1"); } catch { /* ignore */ } }, 11000);
-    const off = () => setHint(false);
-    window.addEventListener("ghost:play", off);
-    return () => { clearTimeout(a); clearTimeout(b); window.removeEventListener("ghost:play", off); };
-  }, []);
-
   const nav = useNav();
   const [sound, setSoundState] = useState(soundOn);
   useEffect(() => onSoundChange(setSoundState), []);
@@ -38,19 +25,23 @@ const Header = ({ theme, setTheme, color, setColor, openMenu }) => {
   return (
     <header className={`sticky top-0 z-50 transition-[background,backdrop-filter] duration-300 ${scrolled ? "backdrop-blur-md glass border-b border-dashed border-line" : "border-b border-transparent"}`}>
       <div className="mx-auto flex h-14 max-w-3xl items-center justify-between rail px-4 sm:px-6">
-        <div className="relative flex items-center">
-          <button onClick={startGhostGame} data-ghost-home data-cursor="catch me" className="flex items-center" aria-label="Play catch the ghost">
-            <Logo className="h-7 w-auto" />
-          </button>
-          {hint && (
-            <span className="swap-enter pointer-events-none absolute left-9 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-md border border-line bg-card px-1.5 py-0.5 font-mono text-[11px] text-muted shadow-sm">
-              ← psst, try catching me
-            </span>
-          )}
-        </div>
+        <Link
+          to="/"
+          onClick={() => { if (!nav.onContact) scrollToId("main"); }}
+          data-ghost-home
+          data-cursor={nav.onContact ? "home" : "top"}
+          className="flex items-center"
+          aria-label={nav.onContact ? "Back to home" : "Back to top"}
+        >
+          <Logo className="h-7 w-auto" />
+        </Link>
         <nav className="flex items-center gap-1 sm:gap-2">
-          <button onClick={startGhostGame} className="play-btn group flex items-center gap-1.5 rounded-md px-2 py-1 text-sm text-muted transition-colors hover:text-fg" data-cursor="catch the ghost" aria-label="Play catch the ghost">
-            <Logo className="play-ghost h-3.5 w-auto" />
+          {nav.onContact && (
+            <Link to="/" className="group flex items-center gap-1 rounded-md px-2 py-1 text-sm text-muted transition-colors hover:text-fg">
+              <ArrowRight className="size-3.5 rotate-180 transition-transform group-hover:-translate-x-0.5" /> Home
+            </Link>
+          )}
+          <button onClick={startGhostGame} className="rounded-md px-2 py-1 text-sm text-muted transition-colors hover:text-fg" data-cursor="catch the ghost" aria-label="Play catch the ghost">
             Play
           </button>
           <Link to="/contact" className={`rounded-md px-2 py-1 text-sm transition-colors hover:text-fg ${nav.onContact ? "text-fg underline decoration-[color:var(--faint)] underline-offset-4" : "text-muted"}`}>Contact</Link>

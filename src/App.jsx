@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigationType } from "react-router-dom";
 import Lenis from "lenis";
 import Cursor from "./components/Cursor";
 import Header from "./components/Header";
@@ -71,12 +71,27 @@ const ContactPage = () => {
 };
 
 // start each page at the top unless we were asked to jump somewhere
+// New pages open at the top. Going back (browser back button) returns to where you were.
+const saved = new Map();
 const useScrollReset = () => {
-  const { pathname, state } = useLocation();
+  const { pathname, state, key } = useLocation();
+  const type = useNavigationType();
   useEffect(() => {
-    if (state?.scrollTo) return;
-    window.__lenis ? window.__lenis.scrollTo(0, { immediate: true }) : window.scrollTo(0, 0);
-  }, [pathname]);
+    const remember = () => saved.set(key, window.scrollY);
+    window.addEventListener("scroll", remember, { passive: true });
+    if (!state?.scrollTo) {
+      const y = type === "POP" ? saved.get(key) ?? 0 : 0;
+      const to = () => {
+        const lenis = window.__lenis;
+        lenis?.resize(); // the page height just changed, let smooth scroll re-measure first
+        if (lenis) lenis.scrollTo(y, { immediate: true, force: true });
+        else window.scrollTo(0, y);
+      };
+      // wait for layout, then jump
+      requestAnimationFrame(() => requestAnimationFrame(to));
+    }
+    return () => window.removeEventListener("scroll", remember);
+  }, [pathname, key]);
 };
 
 const App = () => {

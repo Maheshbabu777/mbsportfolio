@@ -3,20 +3,24 @@ import { profile } from "../data";
 import Section from "./Section";
 import { useInView } from "./Reveal";
 
+// cached so coming back to the page does not refetch or jump the layout
+let cache = null;
+
 const LEVEL_OPACITY = [0, 0.25, 0.45, 0.7, 1];
 
 // public contributions via github-contributions-api (no token needed)
 const Activity = () => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState(cache);
   const [failed, setFailed] = useState(false);
   const [hover, setHover] = useState(null);
   const [ref, inView] = useInView();
 
   useEffect(() => {
+    if (cache) return;
     let alive = true;
     fetch(`https://github-contributions-api.jogruber.de/v4/${profile.githubUser}?y=last`)
       .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((d) => alive && setData(d))
+      .then((d) => { cache = d; if (alive) setData(d); })
       .catch(() => alive && setFailed(true));
     return () => { alive = false; };
   }, []);
