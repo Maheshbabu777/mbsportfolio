@@ -25,7 +25,7 @@ const Game = () => {
   const [taunt, setTaunt] = useState(null);
 
   const ghost = useRef(null);
-  const st = useRef({ x: 0, y: 0, vx: 0, vy: 0, tx: 0, ty: 0, mx: -999, my: -999, caught: 0, stun: 0 });
+  const st = useRef({ x: 0, y: 0, vx: 0, vy: 0, tx: 0, ty: 0, mx: -999, my: -999, caught: 0, stun: 0, stamina: 100, tired: 0 });
   const raf = useRef(0);
   const timer = useRef(0);
 
@@ -39,7 +39,7 @@ const Game = () => {
     const s = st.current;
     const logo = document.querySelector("[data-ghost-home]")?.getBoundingClientRect();
     s.x = logo ? logo.left : 40; s.y = logo ? logo.top : 20;
-    s.vx = 2; s.vy = 3; s.caught = 0; s.stun = 0;
+    s.vx = 1; s.vy = 1.5; s.caught = 0; s.stun = 0; s.stamina = 100; s.tired = 0;
     newTarget();
     setScore(0); setMisses(0); setLeft(ROUND); setMood("normal"); setBursts([]); setTaunt(null);
     setPhase("playing");
@@ -77,8 +77,10 @@ const Game = () => {
     timer.current = setInterval(() => setLeft((l) => Math.max(0, l - 1)), 1000);
 
     const tick = () => {
-      const level = s.caught;
-      const maxV = (touch ? 3.2 : 2.6) + level * 0.55;
+      const level = Math.min(s.caught, 10);
+      // gentle ramp: a little faster per catch, and he tires out after running for a while
+      let maxV = Math.min((touch ? 2.1 : 1.7) + level * 0.22, 4);
+      if (s.tired > 0) { s.tired -= 1; maxV = 0.7; if (s.tired === 0) s.stamina = 100; }
       if (s.stun > 0) { s.stun -= 1; s.vx *= 0.8; s.vy *= 0.8; }
       else {
         // wander toward a target
@@ -89,16 +91,18 @@ const Game = () => {
         // run from the cursor
         const cx = s.x + SIZE / 2, cy = s.y + SIZE / 2;
         const fx = cx - s.mx, fy = cy - s.my, fd = Math.hypot(fx, fy);
-        const fear = 110 + level * 12;
-        if (fd < fear) {
-          const k = (1 - fd / fear) * (1.1 + level * 0.12);
+        const fear = 75 + level * 6;
+        if (fd < fear && s.tired === 0) {
+          const k = (1 - fd / fear) * (0.45 + level * 0.05);
           s.vx += (fx / (fd || 1)) * k;
           s.vy += (fy / (fd || 1)) * k;
-          if (fd < 70) newTarget();
-        }
+          if (fd < 50) newTarget();
+          s.stamina -= 1.4;
+          if (s.stamina <= 0) { s.tired = 70; setTaunt({ text: "*huff huff*", x: s.x + SIZE / 2, y: s.y - 10, id: Math.random() }); }
+        } else s.stamina = Math.min(100, s.stamina + 0.4);
         const sp = Math.hypot(s.vx, s.vy);
         if (sp > maxV) { s.vx = (s.vx / sp) * maxV; s.vy = (s.vy / sp) * maxV; }
-        setMood((m) => { const nm = fd < fear * 0.7 ? "scared" : "normal"; return m === nm ? m : nm; });
+        setMood((m) => { const nm = s.tired > 0 ? "caught" : fd < fear * 0.8 ? "scared" : "normal"; return m === nm ? m : nm; });
       }
       s.x += s.vx; s.y += s.vy;
       // bounce off the edges
@@ -137,11 +141,11 @@ const Game = () => {
   const onBoard = (e) => {
     if (phase !== "playing") return;
     const s = st.current;
-    const pad = 8;
+    const pad = 16;
     const hit = e.clientX > s.x - pad && e.clientX < s.x + SIZE + pad && e.clientY > s.y - pad && e.clientY < s.y + SIZE + pad;
     if (hit) {
       s.caught += 1;
-      s.stun = 26;
+      s.stun = 26; s.stamina = 100; s.tired = 0;
       setScore((n) => n + 1);
       setMood("caught");
       burst(s.x + SIZE / 2, s.y + SIZE / 2);
