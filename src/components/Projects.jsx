@@ -1,116 +1,126 @@
-import noteIT from '../assets/noteIT.png';
-import MultiTrans from '../assets/MultiTrans.png';
-import Ev from '../assets/EV.png';
-import semlogic from '../assets/semlogic.png';
+import { useRef } from "react";
+import semlogic from "../assets/semlogic.png";
+import { moreProjects, projects } from "../data";
+import Section from "./Section";
+import { Reveal, useInView } from "./Reveal";
+import { Arrow, Github } from "./Icons";
+import BitText from "./PixelLogo";
 
-const Projects = () => {
+// tilt the media toward the cursor
+const useTilt = () => {
+  const ref = useRef(null);
+  const onMove = (e) => {
+    const el = ref.current; if (!el) return;
+    const r = el.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    el.style.transform = `perspective(700px) rotateX(${(-y * 6).toFixed(2)}deg) rotateY(${(x * 8).toFixed(2)}deg) scale(1.02)`;
+  };
+  const onLeave = () => { if (ref.current) ref.current.style.transform = ""; };
+  return { ref, onMove, onLeave };
+};
+
+const FraudChart = ({ models }) => {
+  const [ref, inView] = useInView();
+  const min = 0.9, max = 0.97;
   return (
-    <section id="projects" className="px-4 sm:px-6 md:px-20 py-16 md:py-24 w-full">
-      <div className="max-w-7xl mx-auto w-full">
-
-        <div className="mb-10">
-          <h2 className="text-white text-3xl md:text-5xl font-light mb-8 text-center">
-            <span className="text-[#f8401a]">{'{ '}</span>
-            <span className="italic">Curated Work</span>
-            <span className="text-[#f8401a]">{' }'}</span>
-          </h2>
-          <p className="text-white/70 font-light text-xl leading-normal text-center mb-12">
-            Things that I have built. From each project, I have learned something new and exciting.
-          </p>
-        </div>
-
-        <div className="flex flex-col lg:flex-row gap-5 items-start">
-
-          {/* LEFT COLUMN */}
-          <div className="flex-1 flex flex-col gap-5">
-
-            <div className="group block p-7 border-2 border-[#ffffff]/30 rounded-[20px] hover:border-[#ffffff] transition-all duration-300 ease-out hover:scale-[1.03]">
-              <div className="flex items-start justify-between gap-5">
-                <h3 className="text-white/50 font-[600] text-lg mb-2">
-                  Multilingual Language Identification
-                </h3>
-                <a href="https://github.com/Maheshbabu777/Transformer-text-classification/blob/main/IEEE.pdf" target="_blank" rel="noopener noreferrer">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"
-                    className="w-4 h-4 text-white/30 group-hover:text-[#f8401a] group-hover:rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300 shrink-0 mt-1">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
-                  </svg>
-                </a>
-              </div>
-              <p className="text-white text-base font-[400] leading-relaxed mb-6">
-                Transformer-based NLP system achieving 96.68% accuracy for token-level language detection in code-switched text.
-              </p>
-              <img src={MultiTrans} alt="Multilingual Language Identification"
-                className="h-full w-full rounded-lg object-cover group-hover:scale-105 transition-all duration-500" />
-            </div>
-
-            <div className="group block p-7 border-2 border-[#ffffff]/30 rounded-[20px] hover:border-[#ffffff] transition-all duration-300 ease-out hover:scale-[1.03]">
-              <div className="flex items-start justify-between gap-5">
-                <h3 className="text-white/50 font-[600] text-lg mb-2">
-                  EV Battery Charging Optimization
-                </h3>
-                <a href="https://github.com/Maheshbabu777/EV-battery-optimisation" target="_blank" rel="noopener noreferrer">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"
-                    className="w-4 h-4 text-white/30 group-hover:text-[#f8401a] group-hover:rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300 shrink-0 mt-1">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
-                  </svg>
-                </a>
-              </div>
-              <p className="text-white text-base font-[400] leading-relaxed mb-5">
-                Machine learning models to optimize EV charging behavior with 90% prediction accuracy and ∼0.98 average ROC-AUC with Logistic Regression.
-              </p>
-              <img src={Ev} alt="EV Battery Charging Optimization"
-                className="w-auto h-auto rounded-lg object-cover group-hover:scale-105 transition-all duration-500" />
-            </div>
-
+    <div ref={ref} className="flex h-full flex-col justify-center gap-3 px-5 py-6 font-mono text-[11px]">
+      <div className="flex justify-between text-faint"><span>test AUC</span><span>IEEE-CIS</span></div>
+      {models.map((m, i) => (
+        <div key={m.n} className="space-y-1">
+          <div className="flex justify-between"><span className={i === 0 ? "text-fg" : "text-muted"}>{m.n}</span><span className={i === 0 ? "text-fg" : "text-muted"}>{m.auc.toFixed(3)}</span></div>
+          <div className="h-2 overflow-hidden rounded-sm bg-[color:var(--line)]">
+            <div
+              className={`h-full rounded-sm transition-[width] duration-[1200ms] ease-[cubic-bezier(.2,.7,.2,1)] ${i === 0 ? "bg-fg" : "bg-faint"}`}
+              style={{ width: inView ? `${((m.auc - min) / (max - min)) * 100}%` : "0%", transitionDelay: `${200 + i * 150}ms` }}
+            />
           </div>
-
-          {/* RIGHT COLUMN */}
-          <div className="flex-1 flex flex-col gap-5">
-
-            <div className="group block p-7 border-2 border-[#ffffff]/30 rounded-[20px] hover:border-[#ffffff] transition-all duration-300 ease-out hover:scale-[1.03]">
-              <div className="flex items-start justify-between gap-5">
-                <h3 className="text-white/50 font-[600] text-lg mb-2">
-                  semlogic
-                </h3>
-                <a href="https://github.com/Maheshbabu777/semantic-code-search" target="_blank" rel="noopener noreferrer">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"
-                    className="w-4 h-4 text-white/30 group-hover:text-[#f8401a] group-hover:rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300 shrink-0 mt-1">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
-                  </svg>
-                </a>
-              </div>
-              <p className="text-white text-base font-[400] leading-relaxed mb-5">
-                Retrieval Augmented Generation for Codebases used to understand internal code by searching semantically.
-              </p>
-              <img src={semlogic} alt="semlogic"
-                className="w-full h-full rounded-lg object-cover group-hover:scale-105 transition-all duration-500" />
-            </div>
-
-            <div className="group block p-7 border-2 border-[#ffffff]/30 rounded-[20px] hover:border-[#ffffff] transition-all duration-300 ease-out hover:scale-[1.03]">
-              <div className="flex items-start justify-between gap-5">
-                <h3 className="text-white/50 font-[600] text-lg mb-2">
-                  NoteIT
-                </h3>
-                <a href="https://github.com/Maheshbabu777/NoteIT" target="_blank" rel="noopener noreferrer">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"
-                    className="w-4 h-4 text-white/30 group-hover:text-[#f8401a] group-hover:rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300 shrink-0 mt-1">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
-                  </svg>
-                </a>
-              </div>
-              <p className="text-white text-base font-[400] leading-relaxed mb-5">
-                Full-stack notes application with CRUD operations and user authentication for managing personal notes.
-              </p>
-              <img src={noteIT} alt="NoteIT"
-                className="w-full h-full rounded-lg object-cover group-hover:scale-105 transition-all duration-500" />
-            </div>
-
-          </div>
-
         </div>
+      ))}
+      <div className="mt-1 flex items-center gap-2 text-faint">
+        <span>recall</span>
+        <span className="text-muted line-through decoration-faint">0.59</span>
+        <span>→</span>
+        <span className="text-fg">0.69</span>
+        <span>after threshold tuning</span>
       </div>
-    </section>
+    </div>
   );
 };
+
+const Media = ({ p }) => {
+  const tilt = useTilt();
+  return (
+    <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-line bg-card" onMouseMove={tilt.onMove} onMouseLeave={tilt.onLeave}>
+      <div className="halftone absolute inset-0" />
+      <div ref={tilt.ref} className="relative h-full transition-transform duration-300 ease-out will-change-transform">
+        {p.kind === "image" ? (
+          <div className="flex h-full items-center justify-center p-4">
+            <img src={semlogic} alt={`${p.name} screenshot`} className="max-h-full rounded-md border border-line shadow-lg" loading="lazy" />
+          </div>
+        ) : (
+          <FraudChart models={p.models} />
+        )}
+      </div>
+    </div>
+  );
+};
+
+const Card = ({ p, i }) => (
+  <Reveal delay={i * 100} className={`flex flex-col gap-3 p-4 sm:p-5 ${i === 0 ? "md:border-r md:border-dashed md:border-line" : "border-t border-dashed border-line md:border-t-0"}`}>
+    <a href={p.live || p.code} target="_blank" rel="noopener noreferrer" data-cursor="open" aria-label={`Open ${p.name}`}>
+      <Media p={p} />
+    </a>
+    <div className="flex items-start justify-between gap-2">
+      <div>
+        <h3 className="font-medium">{p.name}</h3>
+        <p className="text-xs text-faint">{p.tagline} · {p.date}</p>
+      </div>
+      <div className="flex shrink-0 gap-1.5">
+        {p.live && (
+          <a href={p.live} target="_blank" rel="noopener noreferrer" className="chip inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs">Live <Arrow className="size-3" /></a>
+        )}
+        <a href={p.code} target="_blank" rel="noopener noreferrer" className="chip inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs"><Github className="size-3" /> Code</a>
+      </div>
+    </div>
+    <p className="text-sm leading-relaxed text-muted">{p.desc}</p>
+    {p.stats && (
+      <div className="grid grid-cols-3 divide-x divide-dashed divide-[color:var(--line)] rounded-lg border border-dashed border-line">
+        {p.stats.map((s) => (
+          <div key={s.k} className="px-2 py-2">
+            <div className="font-mono text-[13px]">{s.v}</div>
+            <div className="text-[10px] uppercase tracking-wider text-faint">{s.k}</div>
+          </div>
+        ))}
+      </div>
+    )}
+    <div className="mt-auto flex flex-wrap gap-1.5">
+      {p.tags.map((t) => <span key={t} className="chip rounded-md px-2 py-0.5 font-mono text-[11px] text-muted">{t}</span>)}
+    </div>
+  </Reveal>
+);
+
+const Projects = () => (
+  <Section id="work" title="Projects">
+    <div className="grid md:grid-cols-2">
+      {projects.map((p, i) => <Card key={p.name} p={p} i={i} />)}
+    </div>
+    <div className="border-t border-dashed border-line px-4 py-3 sm:px-6">
+      <p className="mb-1 font-mono text-[11px] uppercase tracking-wider text-faint">Earlier</p>
+      {moreProjects.map((m, i) => (
+        <Reveal key={m.name} delay={i * 60}>
+          <a href={m.link} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-3 rounded-lg py-2.5">
+            <span className="chip grid size-8 shrink-0 place-items-center rounded-md "><BitText text={m.name[0]} px={2} gap={0.5} interactive={false} /></span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-sm font-medium">{m.name}</span>
+              <span className="block truncate text-xs text-muted">{m.desc}</span>
+            </span>
+            <Arrow className="size-3.5 text-faint transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-fg" />
+          </a>
+        </Reveal>
+      ))}
+    </div>
+  </Section>
+);
 
 export default Projects;

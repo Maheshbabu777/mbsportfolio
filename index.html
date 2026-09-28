@@ -2,9 +2,21 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/src/assets/logo-re.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>portfolio</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="preload" href="/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/GeistPixel-Square.woff2" as="font" type="font/woff2" crossorigin />
+    <title>Mahesh Babu | AI/ML Engineer</title>
+    <meta name="description" content="Mahesh Babu Vishnumolakala. AI/ML engineer, AI engineering intern at Perseverance AI, published on IEEE Xplore." />
+    <meta property="og:title" content="Mahesh Babu | AI/ML Engineer" />
+    <meta property="og:description" content="ML systems, research and the things I build." />
+    <meta name="theme-color" content="#fafaf9" />
+    <script>
+      try {
+        var t = localStorage.getItem("mb-theme");
+        if (t === "dark" || (!t && matchMedia("(prefers-color-scheme: dark)").matches)) document.documentElement.classList.add("dark");
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

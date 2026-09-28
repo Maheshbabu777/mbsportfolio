@@ -1,21 +1,108 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@font-face { font-family: "Geist"; src: url("/fonts/Geist-Variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Geist Mono"; src: url("/fonts/GeistMono-Variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Geist Pixel Square"; src: url("/fonts/GeistPixel-Square.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Geist Pixel Grid"; src: url("/fonts/GeistPixel-Grid.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Geist Pixel Circle"; src: url("/fonts/GeistPixel-Circle.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Geist Pixel Triangle"; src: url("/fonts/GeistPixel-Triangle.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Geist Pixel Line"; src: url("/fonts/GeistPixel-Line.woff2") format("woff2"); font-display: swap; }
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-html{
-    scroll-behavior: smooth;
+:root {
+  --bg: #fafaf9;
+  --fg: #0a0a0a;
+  --muted: #71717a;
+  --faint: #a1a1aa;
+  --line: #e7e5e4;
+  --card: #ffffff;
+  --chip: #f4f4f3;
+  --dot: #d6d3d1;
+  color-scheme: light;
+}
+.dark {
+  --bg: #0a0a0a;
+  --fg: #fafafa;
+  --muted: #a1a1aa;
+  --faint: #52525b;
+  --line: #232323;
+  --card: #111111;
+  --chip: #171717;
+  --dot: #2e2e2e;
+  color-scheme: dark;
 }
 
-@layer base {
-  body {
-    @apply font-sans;
-  }
-}
-html, body, #root {
+html { -webkit-font-smoothing: antialiased; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Geist", ui-sans-serif, system-ui, sans-serif;
   overflow-x: hidden;
 }
-body {
-    @apply bg-[#000000] text-white;
+::selection { background: var(--fg); color: var(--bg); }
+
+.font-pixel { font-family: "Geist Pixel Square", "Geist Mono", monospace; }
+.font-mono { font-family: "Geist Mono", ui-monospace, monospace; }
+
+/* custom cursor only on fine pointers */
+@media (pointer: fine) {
+  html.has-cursor, html.has-cursor * { cursor: none !important; }
 }
+
+/* the column + rails (athrix / prathm) */
+.rail { border-left: 1px dashed var(--line); border-right: 1px dashed var(--line); }
+.hline { position: relative; border-top: 1px dashed var(--line); }
+.hline::before, .hline::after {
+  content: ""; position: absolute; top: -3px; width: 5px; height: 5px; background: var(--dot);
+}
+.hline::before { left: -3px; }
+.hline::after { right: -3px; }
+
+.dots-bg {
+  background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+  background-size: 10px 10px;
+}
+.halftone {
+  background-image: radial-gradient(var(--fg) 0.9px, transparent 1.1px);
+  background-size: 5px 5px;
+  opacity: .14;
+}
+
+/* blur reveal */
+.reveal { opacity: 0; filter: blur(8px); transform: translateY(10px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), filter .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+.reveal.in { opacity: 1; filter: blur(0); transform: none; }
+.word { display: inline-block; opacity: 0; filter: blur(6px); transform: translateY(4px); animation: word-in .7s cubic-bezier(.2,.7,.2,1) forwards; }
+@keyframes word-in { to { opacity: 1; filter: blur(0); transform: none; } }
+
+.swap-enter { animation: swap-in .5s cubic-bezier(.2,.7,.2,1) forwards; }
+@keyframes swap-in { from { opacity: 0; filter: blur(6px); transform: translateY(8px); } to { opacity: 1; filter: blur(0); transform: none; } }
+
+.pulse-dot { position: relative; }
+.pulse-dot::after { content: ""; position: absolute; inset: -3px; border-radius: 999px; border: 1px solid currentColor; animation: ping 1.8s cubic-bezier(0,0,.2,1) infinite; }
+@keyframes ping { 75%, 100% { transform: scale(2.2); opacity: 0; } }
+
+/* underline link */
+.ulink { background-image: linear-gradient(currentColor, currentColor); background-size: 0% 1px; background-position: 0 100%; background-repeat: no-repeat; transition: background-size .35s ease; }
+.ulink:hover { background-size: 100% 1px; }
+.ulink-static { text-decoration: underline; text-decoration-color: var(--faint); text-underline-offset: 3px; transition: text-decoration-color .2s; }
+.ulink-static:hover { text-decoration-color: var(--fg); }
+
+.btn-dark { background: var(--fg); color: var(--bg); }
+.chip { background: var(--chip); border: 1px solid var(--line); }
+
+/* avatar pixel reveal */
+.avatar-photo { clip-path: inset(0 0 100% 0); transition: clip-path .6s steps(12); }
+.avatar.show-photo .avatar-photo { clip-path: inset(0 0 0 0); }
+.dark .avatar-dither { filter: invert(1); }
+
+/* theme transition via view transitions */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .word, .swap-enter { opacity: 1 !important; filter: none !important; transform: none !important; animation: none !important; transition: none !important; }
+}
+.glass { background: color-mix(in srgb, var(--bg) 94%, transparent); }
