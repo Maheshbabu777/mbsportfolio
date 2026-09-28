@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import semlogic from "../assets/semlogic.png";
+import semlogic from "../assets/semlogic.webp";
 import { moreProjects, projects } from "../data";
 import Section from "./Section";
 import { Reveal, useInView } from "./Reveal";
@@ -14,7 +14,7 @@ const useTilt = () => {
     const r = el.getBoundingClientRect();
     const x = (e.clientX - r.left) / r.width - 0.5;
     const y = (e.clientY - r.top) / r.height - 0.5;
-    el.style.transform = `perspective(700px) rotateX(${(-y * 6).toFixed(2)}deg) rotateY(${(x * 8).toFixed(2)}deg) scale(1.02)`;
+    el.style.transform = `perspective(700px) rotateX(${(-y * 6).toFixed(2)}deg) rotateY(${(x * 8).toFixed(2)}deg)`;
   };
   const onLeave = () => { if (ref.current) ref.current.style.transform = ""; };
   return { ref, onMove, onLeave };
@@ -55,8 +55,8 @@ const Media = ({ p }) => {
       <div className="halftone absolute inset-0" />
       <div ref={tilt.ref} className="relative h-full transition-transform duration-300 ease-out will-change-transform">
         {p.kind === "image" ? (
-          <div className="flex h-full items-center justify-center p-4">
-            <img src={semlogic} alt={`${p.name} screenshot`} className="max-h-full rounded-md border border-line shadow-lg" loading="lazy" />
+          <div className="h-full p-3">
+            <img src={semlogic} alt={`${p.name} screenshot`} className="size-full rounded-lg border border-line object-cover object-top shadow-md" loading="lazy" />
           </div>
         ) : (
           <FraudChart models={p.models} />

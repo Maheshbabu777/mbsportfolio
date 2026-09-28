@@ -50,7 +50,9 @@ body {
 
 /* custom cursor only on fine pointers */
 @media (pointer: fine) {
-  html.has-cursor, html.has-cursor * { cursor: none !important; }
+  html.pixel-cursor, html.pixel-cursor body { cursor: var(--cur-arrow); }
+  html.pixel-cursor a, html.pixel-cursor button, html.pixel-cursor [role=button], html.pixel-cursor label { cursor: var(--cur-hand); }
+  html.pixel-cursor input, html.pixel-cursor textarea { cursor: text; }
 }
 
 /* the column + rails (athrix / prathm) */
@@ -72,14 +74,14 @@ body {
   opacity: .14;
 }
 
-/* blur reveal */
-.reveal { opacity: 0; filter: blur(8px); transform: translateY(10px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), filter .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
-.reveal.in { opacity: 1; filter: blur(0); transform: none; }
-.word { display: inline-block; opacity: 0; filter: blur(6px); transform: translateY(4px); animation: word-in .7s cubic-bezier(.2,.7,.2,1) forwards; }
-@keyframes word-in { to { opacity: 1; filter: blur(0); transform: none; } }
+/* scroll reveal */
+.reveal { opacity: 0; transform: translateY(10px); transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1); }
+.reveal.in { opacity: 1; transform: none; }
+.word { display: inline-block; opacity: 0; transform: translateY(3px); animation: word-in .45s cubic-bezier(.2,.7,.2,1) forwards; }
+@keyframes word-in { to { opacity: 1; transform: none; } }
 
 .swap-enter { animation: swap-in .5s cubic-bezier(.2,.7,.2,1) forwards; }
-@keyframes swap-in { from { opacity: 0; filter: blur(6px); transform: translateY(8px); } to { opacity: 1; filter: blur(0); transform: none; } }
+@keyframes swap-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
 .pulse-dot { position: relative; }
 .pulse-dot::after { content: ""; position: absolute; inset: -3px; border-radius: 999px; border: 1px solid currentColor; animation: ping 1.8s cubic-bezier(0,0,.2,1) infinite; }
@@ -103,6 +105,6 @@ body {
 ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal, .word, .swap-enter { opacity: 1 !important; filter: none !important; transform: none !important; animation: none !important; transition: none !important; }
+  .reveal, .word, .swap-enter { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
 }
 .glass { background: color-mix(in srgb, var(--bg) 94%, transparent); }

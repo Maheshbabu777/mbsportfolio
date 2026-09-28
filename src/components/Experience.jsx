@@ -29,7 +29,7 @@ const Row = ({ e, i }) => {
       </button>
       <div className={`grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(.2,.7,.2,1)] ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
         <div className="overflow-hidden">
-          <div className={`px-4 pb-5 pl-[68px] transition-[opacity,filter] duration-500 sm:px-6 sm:pl-[80px] ${open ? "opacity-100 blur-0" : "opacity-0 blur-sm"}`}>
+          <div className={`px-4 pb-5 pl-[68px] transition-opacity duration-500 sm:px-6 sm:pl-[80px] ${open ? "opacity-100" : "opacity-0"}`}>
             <p className="font-mono text-xs text-faint sm:hidden">{e.date}</p>
             <p className="mt-1 text-sm text-fg sm:mt-0">{e.summary}</p>
             <ul className="mt-3 space-y-2 text-sm leading-relaxed text-muted">

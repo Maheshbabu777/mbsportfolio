@@ -51,8 +51,6 @@ const App = () => {
         <Education />
         <Footer />
       </main>
-      {/* soft blur at the bottom edge, like prathm */}
-      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 h-12 backdrop-blur-[3px] [mask-image:linear-gradient(to_top,black,transparent)]" />
       <CommandMenu openState={menu} setOpen={setMenu} theme={theme} setTheme={setTheme} />
     </>
   );

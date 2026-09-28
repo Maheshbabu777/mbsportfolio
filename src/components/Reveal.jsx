@@ -24,7 +24,7 @@ export const Reveal = ({ as: Tag = "div", delay = 0, className = "", children, .
   );
 };
 
-// word-by-word blur in, starts when scrolled into view
+// word-by-word fade in, starts when scrolled into view
 export const BlurText = ({ text, className = "", start = 0, step = 28 }) => {
   const [ref, inView] = useInView();
   const words = text.split(" ");
