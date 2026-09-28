@@ -77,10 +77,10 @@ const Game = () => {
     timer.current = setInterval(() => setLeft((l) => Math.max(0, l - 1)), 1000);
 
     const tick = () => {
-      const level = Math.min(s.caught, 10);
-      // gentle ramp: a little faster per catch, and he tires out after running for a while
-      let maxV = Math.min((touch ? 2.1 : 1.7) + level * 0.22, 4);
-      if (s.tired > 0) { s.tired -= 1; maxV = 0.7; if (s.tired === 0) s.stamina = 100; }
+      const level = Math.min(s.caught, 14);
+      // every catch makes him faster, warier and harder to tire out
+      let maxV = Math.min((touch ? 2.1 : 1.7) + level * 0.35, 6);
+      if (s.tired > 0) { s.tired -= 1; maxV = 0.7 + level * 0.05; if (s.tired === 0) s.stamina = 100; }
       if (s.stun > 0) { s.stun -= 1; s.vx *= 0.8; s.vy *= 0.8; }
       else {
         // wander toward a target
@@ -91,14 +91,14 @@ const Game = () => {
         // run from the cursor
         const cx = s.x + SIZE / 2, cy = s.y + SIZE / 2;
         const fx = cx - s.mx, fy = cy - s.my, fd = Math.hypot(fx, fy);
-        const fear = 75 + level * 6;
+        const fear = 75 + level * 9;
         if (fd < fear && s.tired === 0) {
-          const k = (1 - fd / fear) * (0.45 + level * 0.05);
+          const k = (1 - fd / fear) * (0.45 + level * 0.08);
           s.vx += (fx / (fd || 1)) * k;
           s.vy += (fy / (fd || 1)) * k;
           if (fd < 50) newTarget();
-          s.stamina -= 1.4;
-          if (s.stamina <= 0) { s.tired = 70; setTaunt({ text: "*huff huff*", x: s.x + SIZE / 2, y: s.y - 10, id: Math.random() }); }
+          s.stamina -= 1.4 - Math.min(level * 0.07, 0.8);
+          if (s.stamina <= 0) { s.tired = Math.max(28, 70 - level * 4); setTaunt({ text: "*huff huff*", x: s.x + SIZE / 2, y: s.y - 10, id: Math.random() }); }
         } else s.stamina = Math.min(100, s.stamina + 0.4);
         const sp = Math.hypot(s.vx, s.vy);
         if (sp > maxV) { s.vx = (s.vx / sp) * maxV; s.vy = (s.vy / sp) * maxV; }
@@ -141,7 +141,7 @@ const Game = () => {
   const onBoard = (e) => {
     if (phase !== "playing") return;
     const s = st.current;
-    const pad = 16;
+    const pad = Math.max(6, 16 - s.caught);
     const hit = e.clientX > s.x - pad && e.clientX < s.x + SIZE + pad && e.clientY > s.y - pad && e.clientY < s.y + SIZE + pad;
     if (hit) {
       s.caught += 1;
@@ -150,9 +150,14 @@ const Game = () => {
       setMood("caught");
       burst(s.x + SIZE / 2, s.y + SIZE / 2);
       setTimeout(() => {
-        // respawn on the far side of the screen
-        s.x = s.x > innerWidth / 2 ? 40 + Math.random() * 120 : innerWidth - 160 + Math.random() * 100;
-        s.y = 90 + Math.random() * (innerHeight - 200);
+        // respawn anywhere on screen, just not right under the cursor
+        let nx, ny, tries = 0;
+        do {
+          nx = 8 + Math.random() * (innerWidth - SIZE - 16);
+          ny = 64 + Math.random() * (innerHeight - SIZE - 72);
+          tries += 1;
+        } while (Math.hypot(nx + SIZE / 2 - s.mx, ny + SIZE / 2 - s.my) < 220 && tries < 30);
+        s.x = nx; s.y = ny;
         s.vx = s.vy = 0; newTarget(); setMood("normal");
       }, 380);
     } else {
