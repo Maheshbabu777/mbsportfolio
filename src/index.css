@@ -1,21 +1,160 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@font-face { font-family: "Geist"; src: url("/fonts/Geist-Variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Geist Mono"; src: url("/fonts/GeistMono-Variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Instrument Serif"; src: url("/fonts/InstrumentSerif-Italic.woff2") format("woff2"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Geist Pixel Square"; src: url("/fonts/GeistPixel-Square.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Geist Pixel Grid"; src: url("/fonts/GeistPixel-Grid.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Geist Pixel Circle"; src: url("/fonts/GeistPixel-Circle.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Geist Pixel Triangle"; src: url("/fonts/GeistPixel-Triangle.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Geist Pixel Line"; src: url("/fonts/GeistPixel-Line.woff2") format("woff2"); font-display: swap; }
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-html{
-    scroll-behavior: smooth;
+:root {
+  --bg: #fafaf9;
+  --fg: #0a0a0a;
+  --muted: #52525b;
+  --faint: #6b6b73;
+  --deco: #a1a1aa;
+  --line: #e7e5e4;
+  --card: #ffffff;
+  --chip: #f4f4f3;
+  --dot: #d6d3d1;
+  color-scheme: light;
+}
+.dark {
+  --bg: #0a0a0a;
+  --fg: #fafafa;
+  --muted: #a1a1aa;
+  --faint: #85858e;
+  --deco: #52525b;
+  --line: #232323;
+  --card: #111111;
+  --chip: #171717;
+  --dot: #2e2e2e;
+  color-scheme: dark;
 }
 
-@layer base {
-  body {
-    @apply font-sans;
-  }
-}
-html, body, #root {
+/* no visible scrollbars anywhere; scrolling still works with wheel, touch and keys */
+html { -webkit-font-smoothing: antialiased; scrollbar-width: none; }
+html::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+html.scroll-locked { overflow: hidden; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Geist", ui-sans-serif, system-ui, sans-serif;
   overflow-x: hidden;
 }
-body {
-    @apply bg-[#000000] text-white;
+::selection { background: var(--fg); color: var(--bg); }
+
+.font-pixel { font-family: "Geist Pixel Square", "Geist Mono", monospace; }
+.font-mono { font-family: "Geist Mono", ui-monospace, monospace; }
+
+/* custom cursor only on fine pointers */
+@media (pointer: fine) {
+  html.pixel-cursor, html.pixel-cursor body { cursor: var(--cur-arrow); }
+  html.pixel-cursor a, html.pixel-cursor button, html.pixel-cursor [role=button], html.pixel-cursor label { cursor: var(--cur-hand); }
+  html.pixel-cursor input, html.pixel-cursor textarea { cursor: text; }
+}
+
+/* the column + rails (athrix / prathm) */
+.rail { border-left: 1px dashed var(--line); border-right: 1px dashed var(--line); }
+.hline { position: relative; border-top: 1px dashed var(--line); }
+.hline::before, .hline::after {
+  content: ""; position: absolute; top: -3px; width: 5px; height: 5px; background: var(--dot);
+}
+.hline::before { left: -3px; }
+.hline::after { right: -3px; }
+
+.dots-bg {
+  background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+  background-size: 10px 10px;
+}
+.halftone {
+  background-image: radial-gradient(var(--fg) 0.9px, transparent 1.1px);
+  background-size: 5px 5px;
+  opacity: .14;
+}
+
+/* scroll reveal */
+/* sections are visible at rest; nothing waits on scroll to appear */
+.reveal { opacity: 1; }
+.word { display: inline-block; opacity: 0; transform: translateY(3px); animation: word-in .45s cubic-bezier(.2,.7,.2,1) forwards; }
+@keyframes word-in { to { opacity: 1; transform: none; } }
+
+.swap-enter { animation: swap-in .5s cubic-bezier(.2,.7,.2,1) forwards; }
+@keyframes swap-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+.status-dot { display: inline-block; width: 6px; height: 6px; border-radius: 999px; background: var(--fg); flex-shrink: 0; animation: status 2s ease-in-out infinite; }
+@keyframes status { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+
+/* underline link */
+.ulink { background-image: linear-gradient(currentColor, currentColor); background-size: 0% 1px; background-position: 0 100%; background-repeat: no-repeat; transition: background-size .35s ease; }
+.ulink:hover { background-size: 100% 1px; }
+.ulink-static { text-decoration: underline; text-decoration-color: var(--faint); text-underline-offset: 3px; transition: text-decoration-color .2s; }
+.ulink-static:hover { text-decoration-color: var(--fg); }
+
+.btn-dark { background: var(--fg); color: var(--bg); }
+.chip { background: var(--chip); border: 1px solid var(--line); }
+
+/* avatar pixel reveal */
+.avatar-photo { clip-path: inset(0 0 100% 0); visibility: hidden; transition: clip-path .5s steps(10), visibility 0s .5s; }
+.avatar.show-photo .avatar-photo { clip-path: inset(0); visibility: visible; transition: clip-path .5s steps(10), visibility 0s; }
+.dark .avatar-dither { filter: invert(1); }
+
+
+@media (prefers-reduced-motion: reduce) {
+  .status-dot { animation: none; }
+  .reveal, .word, .swap-enter { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
+}
+.glass { background: color-mix(in srgb, var(--bg) 96%, transparent); }
+
+
+/* ghost game */
+html.ghost-out [data-ghost-home] { opacity: 0; transform: scale(.6); }
+[data-ghost-home] { transition: opacity .3s, transform .3s; }
+.ghost-spark { left: -3px; top: -3px; animation: spark .55s steps(5) forwards; }
+@keyframes spark { to { transform: translate(var(--dx), var(--dy)); opacity: 0; } }
+.ghost-plus { top: -34px; animation: plus .6s ease-out forwards; }
+@keyframes plus { from { opacity: 1; transform: translate(-50%, 0); } to { opacity: 0; transform: translate(-50%, -18px); } }
+
+/* keyboard focus: visible ring on everything interactive */
+:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; border-radius: 6px; }
+input:focus-visible, textarea:focus-visible { outline-offset: 0; }
+.skip-link { position: fixed; left: 12px; top: -48px; z-index: 300; transition: top .2s; }
+.skip-link:focus { top: 12px; }
+
+/* skill icons: grey that turns brand colour on hover */
+.skill-ico { color: var(--muted); transition: color .2s; }
+.group:hover .skill-ico { color: var(--brand); }
+.org-logo { filter: grayscale(1); transition: filter .3s; }
+.group:hover .org-logo { filter: none; }
+
+/* colour mode: every logo in its real colours all the time, no hover reveal */
+:root { --gh-0: transparent; --gh-1: #9be9a8; --gh-2: #40c463; --gh-3: #30a14e; --gh-4: #216e39; }
+.dark { --gh-1: #0e4429; --gh-2: #006d32; --gh-3: #26a641; --gh-4: #39d353; }
+.colorful .skill-ico, .colorful .group:hover .skill-ico { color: var(--brand); transition: none; }
+.colorful .org-logo, .colorful .group:hover .org-logo { filter: none; transition: none; }
+.colorful .brand-li { color: #0A66C2; }
+.colorful .gh-cell { opacity: 1 !important; }
+.colorful .gh-cell[data-level="0"] { background: transparent; }
+.colorful .gh-cell[data-level="1"] { background: var(--gh-1); }
+.colorful .gh-cell[data-level="2"] { background: var(--gh-2); }
+.colorful .gh-cell[data-level="3"] { background: var(--gh-3); }
+.colorful .gh-cell[data-level="4"] { background: var(--gh-4); }
+
+
+/* emphasis: the few words a visitor should not miss, in an italic serif against the Geist text */
+.accent {
+  font-family: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.14em;
+  line-height: 1;
+  letter-spacing: -0.005em;
+  color: var(--fg);
 }

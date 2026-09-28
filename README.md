@@ -1,16 +1,34 @@
-# React + Vite
+# mbsportfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Personal site of Mahesh Babu Vishnumolakala. React 19, Vite and Tailwind, deployed on Vercel.
 
-Currently, two official plugins are available:
+## Run it
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev      # local dev server
+npm run build    # production build in dist/
+```
 
-## React Compiler
+## Environment variables (Vercel project settings)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Variable | What it does |
+| --- | --- |
+| `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID` | Firestore like counter in the footer |
+| `VITE_WEB3FORMS_KEY` | Optional. Contact form posts straight to the inbox. Without it the form opens the visitor's mail app. |
 
-## Expanding the ESLint configuration
+## Where things live
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `src/data.js` holds all the content: profile, experience, projects, skills, achievements. Edit this file to update the site.
+- `src/components/` has one file per section, plus the header, search menu (Ctrl/⌘ K), cursor, sounds and the ghost game.
+- `public/` has the fonts (Geist, Geist Mono, Geist Pixel), the resume PDF, favicon and the link preview image.
+- `vercel.json` rewrites every route to `index.html` so `/contact` works on refresh.
+
+## Features
+
+- Light, dark and colour mode (logos in their real colours), remembered per visitor
+- Search menu with keyboard navigation
+- Contact page with a draft that survives reloads
+- Live GitHub contribution graph
+- Click sounds with a mute switch
+- Catch the ghost: a 30 second game with the logo, started from Play in the header

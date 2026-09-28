@@ -1,78 +1,112 @@
-import ppic from '../assets/ppic.jpg';
+import { useEffect, useState } from "react";
+import line from "../assets/avatar-line.jpg";
+import photo from "../assets/avatar-photo.jpg";
+import { profile, about } from "../data";
+import { BlurText, Reveal } from "./Reveal";
+import { Link } from "react-router-dom";
+import { File, Github, LinkedIn, Mail, Send, XLogo } from "./Icons";
 
-const Hero = () => {
+const Clock = () => {
+  const fmt = () => new Date().toLocaleTimeString("en-IN", { hour: "numeric", minute: "2-digit", hour12: true, timeZone: profile.timezone });
+  const [t, setT] = useState(fmt);
+  useEffect(() => { const id = setInterval(() => setT(fmt()), 15000); return () => clearInterval(id); }, []);
+  return <span>{t} IST</span>;
+};
+
+const Roles = () => {
+  const [i, setI] = useState(0);
+  useEffect(() => { const id = setInterval(() => setI((x) => (x + 1) % profile.roles.length), 2600); return () => clearInterval(id); }, []);
   return (
-    <section className="relative min-h-screen flex items-center px-4 sm:px-6 md:px-20 py-10 md:py-16">
-      <svg className="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="grid" width="206" height="206" patternUnits="userSpaceOnUse">
-            <path d="M 206 0 L 0 0 0 206 206 206 206 0" fill="none" stroke="rgba(255,255,255,50)" strokeWidth="0.105" />
-          </pattern>
-          <linearGradient id="fade" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="white" stopOpacity="0" />
-            <stop offset="15%" stopColor="white" stopOpacity="1" />
-            <stop offset="85%" stopColor="white" stopOpacity="1" />
-            <stop offset="100%" stopColor="white" stopOpacity="0" />
-          </linearGradient>
-          <mask id="fade-mask">
-            <rect width="100%" height="100%" fill="url(#fade)" />
-          </mask>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#grid)" mask="url(#fade-mask)" />
-      </svg>
-
-      <div className="relative z-10 max-w-7xl mx-auto w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-[60%_40%] gap-16 lg:gap-20 items-center">
-
-          {/* LEFT */}
-          <div className="flex flex-col order-last lg:order-first">
-            <p className="text-white italic font-[150] text-4xl sm:text-5xl md:text-6xl lg:text-7xl lg:ml-40 lg:mb-20 mb-6">
-              Mahesh here,
-            </p>
-            <p className="text-white font-light text-lg sm:text-xl md:text-2xl lg:text-4xl leading-snug max-w-xl mb-6 lg:ml-40">
-              Turning ideas into reality. I am a Developer specializing in building clear and usable systems.
-            </p>
-            <div className="flex flex-col sm:flex-row items-start gap-4 lg:ml-40">
-
-              {/* LinkedIn button */}
-              <a
-                href="https://linkedin.com/in/maheshbabu-v"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 bg-[#f8401a] text-black px-6 py-3 border-2 border-transparent rounded-lg hover:bg-white hover:border-stone-300 transition-all duration-300 ease-out hover:scale-[1.03]"
-              >
-                <span>LinkedIn</span>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-4">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-                </svg>
-              </a>
-
-              {/* Email button */}
-              <a
-                href="mailto:maheshbabuvishnumolakala@gmail.com"
-                className="group flex items-center gap-2 bg-[#000000] border-2 border-[#f8401a] text-white px-6 py-3 hover:border-[#ffffff] rounded-lg transition-all duration-300 ease-out hover:scale-[1.03]"
-              >
-                <span>Email</span>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-4 rotate-[-44deg] transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
-                </svg>
-              </a>
-            </div>
-          </div>
-
-          {/* RIGHT */}
-          <div className="order-first lg:order-last w-full flex items-center justify-center">
-            <img
-              src={ppic}
-              alt="Mahesh"
-              className="w-36 h-44 sm:w-44 sm:h-52 md:w-56 md:h-64 lg:w-80 lg:h-96 rounded-lg shadow-lg object-cover transition duration-300"
-            />
-          </div>
-
-        </div>
-      </div>
-    </section>
+    <span className="relative block h-6 overflow-hidden">
+      <span key={i} className="swap-enter absolute left-0 top-0 whitespace-nowrap">{profile.roles[i]}</span>
+    </span>
   );
 };
+
+const Avatar = () => {
+  const [photoOn, setPhotoOn] = useState(false);
+  const flip = () => setPhotoOn((v) => !v);
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <button
+        type="button"
+        onClick={flip}
+        className="rounded-xl border border-line bg-white p-[3px] shadow-[0_1px_0_var(--line)]"
+        data-cursor={photoOn ? "drawing" : "real me"}
+        aria-label={photoOn ? "Show illustration" : "Show real photo"}
+        aria-pressed={photoOn}
+      >
+        <span className={`avatar relative block size-[98px] overflow-hidden rounded-[9px] bg-white sm:size-[114px] ${photoOn ? "show-photo" : ""}`}>
+          <img src={line} alt="Illustration of Mahesh" width="114" height="114" className="absolute inset-0 block size-full object-cover" draggable="false" />
+          <img src={photo} alt="" width="114" height="114" className="avatar-photo absolute inset-0 block size-full object-cover" draggable="false" />
+        </span>
+      </button>
+      {/* small visual switch, padded so the tap target is at least 24px */}
+      <button type="button" onClick={flip} className="p-1.5" aria-label="Toggle real photo" aria-pressed={photoOn} tabIndex={-1}>
+        <span className={`relative block h-4 w-7 rounded-full border border-line transition-colors ${photoOn ? "btn-dark" : "chip"}`}>
+          <span className={`absolute top-1/2 size-2.5 -translate-y-1/2 rounded-full transition-all duration-300 ${photoOn ? "left-[14px] bg-[color:var(--bg)]" : "left-[2px] bg-[color:var(--deco)]"}`} />
+        </span>
+      </button>
+    </div>
+  );
+};
+
+const Btn = ({ href, children, dark, ...rest }) => (
+  <a
+    href={href}
+    target={href.startsWith("http") || href.endsWith(".pdf") ? "_blank" : undefined}
+    rel="noopener noreferrer"
+    className={`group inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[13px] font-medium transition-transform duration-200 active:scale-95 ${dark ? "btn-dark hover:opacity-90" : "chip text-fg hover:-translate-y-0.5"}`}
+    {...rest}
+  >
+    {children}
+  </a>
+);
+
+const Hero = () => (
+  <div id="top">
+    {/* empty banner band like prathm, with a dotted field */}
+    <div className="relative h-24 overflow-hidden border-b border-dashed border-line sm:h-32">
+      <div className="dots-bg absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent,black_60%)]" />
+      <div className="absolute bottom-2 right-4 flex items-center gap-2.5 font-mono text-[11px] text-muted sm:right-6">
+        <span className="status-dot" aria-hidden="true" />
+        {profile.location} · <Clock />
+      </div>
+    </div>
+
+    <div className="flex items-start gap-4 px-4 py-6 sm:gap-6 sm:px-6">
+      <Reveal><Avatar /></Reveal>
+      <div className="min-w-0 pt-1">
+        <Reveal as="h1" className="text-[26px] font-medium leading-tight tracking-tight sm:text-4xl">Mahesh Babu</Reveal>
+        <Reveal delay={80} className="mt-1 text-base text-muted sm:text-lg"><Roles /></Reveal>
+        <Reveal delay={160} className="mt-4 flex flex-wrap gap-2">
+          <Btn href={profile.resume} dark><File className="size-3.5" /> Resume</Btn>
+          <Link to="/contact" className="chip group inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[13px] font-medium text-fg transition-transform duration-200 hover:-translate-y-0.5 active:scale-95"><Send className="size-3.5" /> Get in touch</Link>
+        </Reveal>
+      </div>
+    </div>
+
+    <div className="hline scroll-mt-14 px-4 py-6 sm:px-6" id="about">
+      <h2 className="mb-4 text-2xl tracking-tight sm:text-[28px]"><BlurText text="About" /></h2>
+      <ul className="space-y-3 text-[15px] leading-relaxed text-muted">
+        {about.map((p, i) => (
+          <li key={i} className="flex gap-3">
+            <span className="mt-[9px] size-1 shrink-0 bg-fg" />
+            <BlurText text={p} start={i * 120} step={14} />
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div className="hline px-4 py-5 sm:px-6">
+      <Reveal className="flex flex-wrap gap-2">
+        <Btn href={profile.github} dark><Github className="size-3.5" /> GitHub</Btn>
+        <Btn href={profile.linkedin} dark><LinkedIn className="brand-li size-3.5" /> LinkedIn</Btn>
+        <Btn href={profile.x} dark><XLogo className="size-3.5" /> X</Btn>
+        <Btn href={`mailto:${profile.email}`} dark><Mail className="size-3.5" /> Email</Btn>
+      </Reveal>
+    </div>
+  </div>
+);
 
 export default Hero;
