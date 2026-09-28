@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 // Mahesh's ghost mark. The two square eyes look toward the cursor and blink now and then.
 const Logo = ({ className = "h-8 w-auto", mood = "normal" }) => {
   const ref = useRef(null);
-  const [look, setLook] = useState({ x: 0, y: 0 });
+  const eyes = useRef(null);
   const [blink, setBlink] = useState(false);
 
   useEffect(() => {
@@ -17,8 +17,9 @@ const Logo = ({ className = "h-8 w-auto", mood = "normal" }) => {
         const dy = e.clientY - (r.top + r.height / 2);
         const d = Math.hypot(dx, dy) || 1;
         const k = Math.min(1, d / 160);
-        // whole-unit steps keep the pixel eyes crisp
-        setLook({ x: Math.round((dx / d) * 1.6 * k), y: Math.round((dy / d) * 1.6 * k) });
+        // move the eyes straight on the DOM (no React re-render per mouse move); whole units keep them crisp
+        const x = Math.round((dx / d) * 1.6 * k), y = Math.round((dy / d) * 1.6 * k);
+        if (eyes.current) eyes.current.style.transform = `translate(${x}px, ${y}px)`;
       });
     };
     window.addEventListener("mousemove", move, { passive: true });
@@ -45,7 +46,6 @@ const Logo = ({ className = "h-8 w-auto", mood = "normal" }) => {
       width={small ? 2 : 4}
       height={shut ? 1 : small ? 2 : 4}
       fill="var(--bg)"
-      style={{ transform: `translate(${look.x}px, ${look.y}px)`, transition: "transform .15s steps(2)" }}
     />
   );
 
@@ -58,8 +58,10 @@ const Logo = ({ className = "h-8 w-auto", mood = "normal" }) => {
         <path d="M30 0C27.79 0 24.33 0 24.33 0L15.04 12.67L12.35 16.48L19.42 19.1C19.42 19.1 25.87 7.46 30 0Z" />
         <path d="M9.71 32L7.94 29.09L6.18 32L4.41 29.09L2.65 32L0 26.95V.7L15 12.61L30 .7V26.95L27.35 32L25.59 29.09L23.82 32L22.06 29.09L20.29 32L18.53 29.09L16.76 32L15 29.09L13.24 32L11.47 29.09L9.71 32Z" />
       </g>
-      {eye(6)}
-      {eye(20)}
+      <g ref={eyes} style={{ transition: "transform .15s steps(2)" }}>
+        {eye(6)}
+        {eye(20)}
+      </g>
     </svg>
   );
 };

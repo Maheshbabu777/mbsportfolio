@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Logo from "./Logo";
 import { play } from "./sound";
+import { lockScroll } from "./nav";
 
 // "Catch the ghost": the logo escapes the header and runs around the screen.
 // It dodges the cursor and gets faster every time you catch it. 30 seconds a round.
@@ -45,14 +46,14 @@ const Game = () => {
     setScore(0); setMisses(0); setLeft(ROUND); setMood("normal"); setBursts([]); setTaunt(null);
     setPhase("playing");
     document.documentElement.classList.add("ghost-out");
-    window.__lenis?.stop();
+    lockScroll(true);
   }, []);
 
   const stop = useCallback((finished) => {
     cancelAnimationFrame(raf.current);
     clearInterval(timer.current);
     document.documentElement.classList.remove("ghost-out");
-    window.__lenis?.start();
+    lockScroll(false);
     setPhase(finished ? "over" : "idle");
   }, []);
 

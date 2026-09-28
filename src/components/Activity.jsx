@@ -1,7 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { profile } from "../data";
 import Section from "./Section";
-import { useInView } from "./Reveal";
 
 // cached so coming back to the page does not refetch or jump the layout
 let cache = null;
@@ -13,7 +12,7 @@ const Activity = () => {
   const [data, setData] = useState(cache);
   const [failed, setFailed] = useState(false);
   const [hover, setHover] = useState(null);
-  const [ref, inView] = useInView();
+  const scroller = useRef(null);
 
   useEffect(() => {
     if (cache) return;
@@ -24,6 +23,12 @@ const Activity = () => {
       .catch(() => alive && setFailed(true));
     return () => { alive = false; };
   }, []);
+
+  // on narrow screens start scrolled to the most recent weeks
+  useEffect(() => {
+    const el = scroller.current;
+    if (el && data) el.scrollLeft = el.scrollWidth;
+  }, [data]);
 
   const weeks = useMemo(() => {
     if (!data) return [];
@@ -56,7 +61,7 @@ const Activity = () => {
 
   return (
     <Section id="activity" title="Activity" aside={total != null ? `${total} contributions this year` : "loading"}>
-      <div ref={ref} className="relative overflow-x-auto px-4 py-5 sm:px-6">
+      <div ref={scroller} className="relative overflow-x-auto px-4 py-5 sm:px-6">
         <div className="min-w-[640px]">
           <div className="mb-1 flex gap-[3px] font-mono text-[11px] text-faint">
             {months.map((m, i) => <span key={i} className="w-[10px] overflow-visible whitespace-nowrap">{m}</span>)}
@@ -76,8 +81,8 @@ const Activity = () => {
                       {d && d.level > 0 && (
                         <span
                           data-level={d.level}
-                          className="gh-cell absolute inset-0 rounded-[2px] bg-fg transition-opacity duration-500"
-                          style={{ opacity: inView ? LEVEL_OPACITY[d.level] : 0, transitionDelay: `${wi * 12}ms` }}
+                          className="gh-cell absolute inset-0 rounded-[2px] bg-fg"
+                          style={{ opacity: LEVEL_OPACITY[d.level] }}
                         />
                       )}
                     </span>

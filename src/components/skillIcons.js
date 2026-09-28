@@ -94,6 +94,7 @@ export const BRAND = {
 }
 };
 export const LINE = {
+"kagglek": "M8 4v16M17 5l-8.5 7.5L17 19",
 "aws": "M17.5 19H8a5 5 0 1 1 1.1-9.9A6 6 0 0 1 20.6 11 4 4 0 0 1 17.5 19Z",
 "codex": "M4 5h16v14H4zM8 10l3 2.5L8 15M13 15h4",
 "kiro": "M6 20V10a6 6 0 0 1 12 0v10l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5L6 20ZM10 11v2M14 11v2",
@@ -111,6 +112,7 @@ export const LINE = {
 
 // real colours used in colour mode for marks that have no hex above (null means "use the text colour")
 export const REAL = {
+  kagglek: "#20BEFF",
   aws: "#FF9900", kiro: "#9046FF", antigravity: "#4285F4", chroma: "#FF6446", openjdk: "#E76F00",
   db: "#336791", codex: null, github: null, githubcopilot: null, vercel: null, numpy: "#4DABCF", pandas: "#6E56CF",
 };

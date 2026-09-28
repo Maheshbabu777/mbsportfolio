@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { profile } from "../data";
 import { Link } from "react-router-dom";
 import { Reveal } from "./Reveal";
@@ -30,8 +30,13 @@ const Route = ({ href, icon, title, sub, dark, onClick, label }) => {
 };
 
 const Contact = () => {
-  const [email, setEmail] = useState("");
-  const [msg, setMsg] = useState("");
+  // the draft survives a reload of this page (kept for this tab only) and is cleared once sent
+  const draft = (() => { try { return JSON.parse(sessionStorage.getItem("mb-contact-draft")) || {}; } catch { return {}; } })();
+  const [email, setEmail] = useState(draft.email || "");
+  const [msg, setMsg] = useState(draft.msg || "");
+  useEffect(() => {
+    try { sessionStorage.setItem("mb-contact-draft", JSON.stringify({ email, msg })); } catch { /* ignore */ }
+  }, [email, msg]);
   const [state, setState] = useState("idle"); // idle | sending | sent | error
   const [copied, setCopied] = useState(false);
   const valid = /\S+@\S+\.\S+/.test(email) && msg.trim().length >= 10;
@@ -60,7 +65,7 @@ const Contact = () => {
       });
       const j = await r.json();
       if (!j.success) throw new Error();
-      setState("sent"); setEmail(""); setMsg("");
+      setState("sent"); setEmail(""); setMsg(""); try { sessionStorage.removeItem("mb-contact-draft"); } catch { /* ignore */ }
     } catch { setState("error"); }
   };
 

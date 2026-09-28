@@ -35,9 +35,8 @@
   color-scheme: dark;
 }
 
-html { -webkit-font-smoothing: antialiased; }
-html.lenis, html.lenis body { height: auto; }
-.lenis.lenis-smooth { scroll-behavior: auto !important; }
+html { -webkit-font-smoothing: antialiased; scrollbar-gutter: stable; }
+html.scroll-locked { overflow: hidden; }
 
 body {
   background: var(--bg);
@@ -77,8 +76,8 @@ body {
 }
 
 /* scroll reveal */
-.reveal { opacity: 0; transform: translateY(10px); transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1); }
-.reveal.in { opacity: 1; transform: none; }
+/* sections are visible at rest; nothing waits on scroll to appear */
+.reveal { opacity: 1; }
 .word { display: inline-block; opacity: 0; transform: translateY(3px); animation: word-in .45s cubic-bezier(.2,.7,.2,1) forwards; }
 @keyframes word-in { to { opacity: 1; transform: none; } }
 
@@ -107,7 +106,7 @@ body {
   .status-dot { animation: none; }
   .reveal, .word, .swap-enter { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
 }
-.glass { background: color-mix(in srgb, var(--bg) 94%, transparent); }
+.glass { background: color-mix(in srgb, var(--bg) 96%, transparent); }
 
 
 /* ghost game */

@@ -3,7 +3,8 @@ import line from "../assets/avatar-line.jpg";
 import photo from "../assets/avatar-photo.jpg";
 import { profile, about } from "../data";
 import { BlurText, Reveal } from "./Reveal";
-import { File, Github, LinkedIn, Mail, XLogo } from "./Icons";
+import { Link } from "react-router-dom";
+import { File, Github, LinkedIn, Mail, Send, XLogo } from "./Icons";
 
 const Clock = () => {
   const fmt = () => new Date().toLocaleTimeString("en-IN", { hour: "numeric", minute: "2-digit", hour12: true, timeZone: profile.timezone });
@@ -80,12 +81,12 @@ const Hero = () => (
         <Reveal delay={80} className="mt-1 text-base text-muted sm:text-lg"><Roles /></Reveal>
         <Reveal delay={160} className="mt-4 flex flex-wrap gap-2">
           <Btn href={profile.resume} dark><File className="size-3.5" /> Resume</Btn>
-          <Btn href={`mailto:${profile.email}`}><Mail className="size-3.5" /> Email me</Btn>
+          <Link to="/contact" className="chip group inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[13px] font-medium text-fg transition-transform duration-200 hover:-translate-y-0.5 active:scale-95"><Send className="size-3.5" /> Get in touch</Link>
         </Reveal>
       </div>
     </div>
 
-    <div className="hline px-4 py-6 sm:px-6" id="about">
+    <div className="hline scroll-mt-14 px-4 py-6 sm:px-6" id="about">
       <h2 className="mb-4 text-2xl tracking-tight sm:text-[28px]"><BlurText text="About" /></h2>
       <ul className="space-y-3 text-[15px] leading-relaxed text-muted">
         {about.map((p, i) => (

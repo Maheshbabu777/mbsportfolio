@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { profile } from "../data";
 import { Arrow, Check, Copy, File, Github, LinkedIn, Moon, Paper, Search, SoundOn, XLogo, Palette } from "./Icons";
 import { setSound, soundOn } from "./sound";
-import { useNav } from "./nav";
+import { lockScroll, useNav } from "./nav";
 import { toggleTheme } from "./theme";
 import { startGhostGame } from "./Game";
 
@@ -57,9 +57,9 @@ const CommandMenu = ({ openState, setOpen, theme, setTheme, color, setColor }) =
   useEffect(() => {
     if (openState) {
       lastFocus.current = document.activeElement;
-      setQ(""); setActive(0); setTimeout(() => input.current?.focus(), 10); window.__lenis?.stop();
+      setQ(""); setActive(0); setTimeout(() => input.current?.focus(), 10); lockScroll(true);
+      return () => lockScroll(false);
     } else {
-      window.__lenis?.start();
       lastFocus.current?.focus?.(); // give focus back to whatever opened the menu
     }
   }, [openState]);
@@ -85,7 +85,7 @@ const CommandMenu = ({ openState, setOpen, theme, setTheme, color, setColor }) =
           <input ref={input} value={q} onChange={(e) => setQ(e.target.value)} onKeyDown={onKey} placeholder="Type a command or search" aria-label="Search commands" className="h-11 flex-1 bg-transparent text-sm outline-none placeholder:text-faint" />
           <kbd className="chip rounded px-1.5 font-mono text-[11px] text-muted">esc</kbd>
         </div>
-        <div className="max-h-80 overflow-y-auto p-1.5" data-lenis-prevent>
+        <div className="max-h-80 overflow-y-auto p-1.5" style={{ overscrollBehavior: "contain" }}>
           {list.length === 0 && <p className="px-3 py-6 text-center text-sm text-faint">Nothing found.</p>}
           {list.map((item, i) => {
             const header = item.g !== lastGroup ? (lastGroup = item.g) : null;

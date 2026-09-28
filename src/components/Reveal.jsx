@@ -15,14 +15,11 @@ export const useInView = (opts = { threshold: 0.15, rootMargin: "0px 0px -8% 0px
   return [ref, inView];
 };
 
-export const Reveal = ({ as: Tag = "div", delay = 0, className = "", children, ...rest }) => {
-  const [ref, inView] = useInView();
-  return (
-    <Tag ref={ref} className={`reveal ${inView ? "in" : ""} ${className}`} style={{ transitionDelay: `${delay}ms` }} {...rest}>
-      {children}
-    </Tag>
-  );
-};
+// plain wrapper: sections are visible at rest, so there is nothing to observe or animate
+// eslint-disable-next-line no-unused-vars
+export const Reveal = ({ as: Tag = "div", delay, className = "", children, ...rest }) => (
+  <Tag className={className} {...rest}>{children}</Tag>
+);
 
 // word-by-word fade in, starts when scrolled into view
 export const BlurText = ({ text, className = "", start = 0, step = 28 }) => {

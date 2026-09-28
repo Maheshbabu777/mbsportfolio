@@ -8,44 +8,43 @@ import { PixelMorph } from "./PixelLogo";
 import Logo from "./Logo";
 import { startGhostGame } from "./Game";
 
-// dot field that swells around the cursor
+// dot field that swells around the cursor. Redraws only when the pointer moves over it.
 const DotField = () => {
   const canvas = useRef(null);
   useEffect(() => {
     const c = canvas.current; if (!c) return;
     const ctx = c.getContext("2d");
-    let w, h, dpr, raf, mx = -999, my = -999, visible = false;
+    let w = 0, h = 0, raf = 0, mx = -999, my = -999;
     const gap = 12;
     const size = () => {
-      dpr = window.devicePixelRatio || 1;
+      const dpr = window.devicePixelRatio || 1;
       w = c.clientWidth; h = c.clientHeight;
       c.width = w * dpr; c.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      draw();
     };
     const draw = () => {
       ctx.clearRect(0, 0, w, h);
-      const fg = getComputedStyle(document.documentElement).getPropertyValue("--fg").trim() || "#000";
-      ctx.fillStyle = fg;
+      ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--fg").trim() || "#000";
       for (let y = gap / 2; y < h; y += gap) {
         for (let x = gap / 2; x < w; x += gap) {
-          const d = Math.hypot(x - mx, y - my);
-          const k = Math.max(0, 1 - d / 110);
-          const fade = Math.min(1, 0.25 + y / h);
-          ctx.globalAlpha = (0.18 + k * 0.8) * fade;
+          const k = Math.max(0, 1 - Math.hypot(x - mx, y - my) / 110);
+          ctx.globalAlpha = (0.18 + k * 0.8) * Math.min(1, 0.25 + y / h);
           const r = 0.8 + k * 2.6;
           ctx.fillRect(x - r, y - r, r * 2, r * 2);
         }
       }
       ctx.globalAlpha = 1;
-      if (visible) raf = requestAnimationFrame(draw);
     };
-    const move = (e) => { const r = c.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; };
-    const leave = () => { mx = my = -999; };
-    const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) { cancelAnimationFrame(raf); draw(); } });
-    size(); io.observe(c); draw();
+    const queue = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(draw); };
+    const move = (e) => { const r = c.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; queue(); };
+    const leave = () => { mx = my = -999; queue(); };
+    const mo = new MutationObserver(queue); // theme switch
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    size();
     window.addEventListener("resize", size);
-    c.addEventListener("mousemove", move);
-    c.addEventListener("mouseleave", leave);
-    return () => { cancelAnimationFrame(raf); io.disconnect(); window.removeEventListener("resize", size); };
+    c.addEventListener("pointermove", move);
+    c.addEventListener("pointerleave", leave);
+    return () => { cancelAnimationFrame(raf); mo.disconnect(); window.removeEventListener("resize", size); c.removeEventListener("pointermove", move); c.removeEventListener("pointerleave", leave); };
   }, []);
   return <canvas ref={canvas} className="block h-40 w-full" aria-hidden="true" />;
 };

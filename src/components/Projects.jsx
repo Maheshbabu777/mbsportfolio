@@ -2,7 +2,7 @@ import { useRef } from "react";
 import semlogic from "../assets/semlogic.webp";
 import { moreProjects, projects } from "../data";
 import Section from "./Section";
-import { Reveal, useInView } from "./Reveal";
+import { Reveal } from "./Reveal";
 import { Arrow, Battery, Github, Note } from "./Icons";
 
 
@@ -21,18 +21,17 @@ const useTilt = () => {
 };
 
 const FraudChart = ({ models }) => {
-  const [ref, inView] = useInView();
   const min = 0.9, max = 0.97;
   return (
-    <div ref={ref} className="flex h-full flex-col justify-center gap-3 px-5 py-6 font-mono text-[11px]">
+    <div className="flex h-full flex-col justify-center gap-3 px-5 py-6 font-mono text-[11px]">
       <div className="flex justify-between text-faint"><span>test AUC</span><span>IEEE-CIS</span></div>
       {models.map((m, i) => (
         <div key={m.n} className="space-y-1">
           <div className="flex justify-between"><span className={i === 0 ? "text-fg" : "text-muted"}>{m.n}</span><span className={i === 0 ? "text-fg" : "text-muted"}>{m.auc.toFixed(3)}</span></div>
           <div className="h-2 overflow-hidden rounded-sm bg-[color:var(--line)]">
             <div
-              className={`h-full rounded-sm transition-[width] duration-[1200ms] ease-[cubic-bezier(.2,.7,.2,1)] ${i === 0 ? "bg-fg" : "bg-[color:var(--deco)]"}`}
-              style={{ width: inView ? `${((m.auc - min) / (max - min)) * 100}%` : "0%", transitionDelay: `${200 + i * 150}ms` }}
+              className={`h-full rounded-sm ${i === 0 ? "bg-fg" : "bg-[color:var(--deco)]"}`}
+              style={{ width: `${((m.auc - min) / (max - min)) * 100}%` }}
             />
           </div>
         </div>
@@ -113,7 +112,7 @@ const Projects = () => (
             <span className="chip grid size-8 shrink-0 place-items-center rounded-md">{m.icon === "battery" ? <Battery className="size-4" /> : <Note className="size-4" />}</span>
             <span className="min-w-0 flex-1">
               <span className="block text-sm font-medium">{m.name}</span>
-              <span className="block truncate text-xs text-muted">{m.desc}</span>
+              <span className="block text-xs text-muted">{m.desc}</span>
             </span>
             <Arrow className="size-3.5 text-faint transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-fg" />
           </a>

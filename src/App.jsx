@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import { Route, Routes, useLocation, useNavigationType } from "react-router-dom";
-import Lenis from "lenis";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { Route, Routes, useLocation, useNavigate, useNavigationType } from "react-router-dom";
 import Cursor from "./components/Cursor";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
@@ -15,34 +14,18 @@ import Footer from "./components/Footer";
 import CommandMenu from "./components/CommandMenu";
 import Game from "./components/Game";
 import { applyColor, applyTheme, getInitialColor, getInitialTheme } from "./components/theme";
-import { isContactPath, scrollToId } from "./components/nav";
-
-const useLenis = () => {
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const lenis = new Lenis({ duration: 1.1, smoothWheel: true });
-    window.__lenis = lenis;
-    let id;
-    const raf = (t) => { lenis.raf(t); id = requestAnimationFrame(raf); };
-    id = requestAnimationFrame(raf);
-    const click = (e) => {
-      const a = e.target.closest?.('a[href^="#"]');
-      if (!a) return;
-      const el = document.querySelector(a.getAttribute("href"));
-      if (el) { e.preventDefault(); lenis.scrollTo(el, { offset: -56 }); }
-    };
-    document.addEventListener("click", click);
-    return () => { cancelAnimationFrame(id); document.removeEventListener("click", click); lenis.destroy(); window.__lenis = null; };
-  }, []);
-};
+import { scrollToId, scrollToY } from "./components/nav";
 
 const Home = () => {
-  const { state } = useLocation();
-  // arriving from another page with a section to jump to
+  const { state, pathname } = useLocation();
+  const navigate = useNavigate();
+  // arriving from the contact page with a section to jump to. The request is used once and then
+  // cleared from history, so a reload later opens the page at the top instead of jumping again.
   useEffect(() => {
     if (!state?.scrollTo) return;
-    const t = setTimeout(() => scrollToId(state.scrollTo), 250);
-    return () => clearTimeout(t);
+    const id = state.scrollTo;
+    navigate(pathname, { replace: true, state: null });
+    requestAnimationFrame(() => scrollToId(id));
   }, [state]);
   useEffect(() => { document.title = "Mahesh Babu | AI/ML Engineer"; }, []);
   return (
@@ -71,26 +54,21 @@ const ContactPage = () => {
 };
 
 // start each page at the top unless we were asked to jump somewhere
-// New pages open at the top. Going back (browser back button) returns to where you were.
+// New pages open at the top, and so does every reload. The browser back button returns to where you were.
 const saved = new Map();
 const useScrollReset = () => {
   const { pathname, state, key } = useLocation();
   const type = useNavigationType();
-  useEffect(() => {
-    const remember = () => saved.set(key, window.scrollY);
+  // layout effect so the position is saved before the next page's DOM can clamp it
+  useLayoutEffect(() => {
+    let latest = window.scrollY;
+    const remember = () => { latest = window.scrollY; };
     window.addEventListener("scroll", remember, { passive: true });
-    if (!state?.scrollTo) {
+    if (type !== "REPLACE" && !state?.scrollTo) {
       const y = type === "POP" ? saved.get(key) ?? 0 : 0;
-      const to = () => {
-        const lenis = window.__lenis;
-        lenis?.resize(); // the page height just changed, let smooth scroll re-measure first
-        if (lenis) lenis.scrollTo(y, { immediate: true, force: true });
-        else window.scrollTo(0, y);
-      };
-      // wait for layout, then jump
-      requestAnimationFrame(() => requestAnimationFrame(to));
+      requestAnimationFrame(() => scrollToY(y));
     }
-    return () => window.removeEventListener("scroll", remember);
+    return () => { saved.set(key, latest); window.removeEventListener("scroll", remember); };
   }, [pathname, key]);
 };
 
@@ -100,7 +78,6 @@ const App = () => {
   const [color, setColor] = useState(getInitialColor);
   useEffect(() => applyColor(color), [color]);
   useEffect(() => applyTheme(theme), []);
-  useLenis();
   useEffect(() => wireSounds(), []);
   useScrollReset();
 

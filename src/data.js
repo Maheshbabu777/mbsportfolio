@@ -131,13 +131,13 @@ export const skills = [
   },
   {
     group: "Workflow",
-    items: [["Git", "git"], ["GitHub", "github"], ["Jupyter", "jupyter"], ["Google Colab", "googlecolab"], ["Kaggle", "kaggle"], ["Figma", "figma"]],
+    items: [["Git", "git"], ["GitHub", "github"], ["Jupyter", "jupyter"], ["Google Colab", "googlecolab"], ["Kaggle", "kagglek"], ["Figma", "figma"]],
   },
 ];
 
 export const achievements = [
   { title: "2nd place, university hackathon", desc: "Malicious URL detection system built with ML.", date: "Feb 2026" },
-  { title: "Paper published on IEEE Xplore", desc: "Presented at ICICI 2026.", date: "2026", link: "https://ieeexplore.ieee.org/document/11565004" },
+  { title: "Paper published on IEEE Xplore", desc: "Presented at ICICI 2026.", date: "May 2026", link: "https://ieeexplore.ieee.org/document/11565004" },
   { title: "Top 10% of the university", desc: "Academic ranking at LPU.", date: "Mar 2025" },
 ];
 

@@ -1,14 +1,21 @@
 import { useLocation, useNavigate } from "react-router-dom";
 
-export const scrollToId = (id, instant = false) => {
+const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// native scrolling: sections carry scroll-margin-top so they clear the sticky header
+export const scrollToId = (id) => {
   const el = document.getElementById(id);
   if (!el) return;
-  const lenis = window.__lenis;
-  lenis?.start();
-  requestAnimationFrame(() => {
-    if (lenis) lenis.scrollTo(el, { offset: -56, immediate: instant });
-    else window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 56, behavior: instant ? "auto" : "smooth" });
-  });
+  el.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "start" });
+};
+
+export const scrollToY = (y) => window.scrollTo({ top: y, left: 0, behavior: "instant" });
+
+// lock page scroll under overlays (search menu, game) without the page jumping sideways
+let locks = 0;
+export const lockScroll = (on) => {
+  locks = Math.max(0, locks + (on ? 1 : -1));
+  document.documentElement.classList.toggle("scroll-locked", locks > 0);
 };
 
 export const isContactPath = (p) => /\/contact\/?$/.test(p);

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Logo from "./Logo";
 import { scrollToId, useNav } from "./nav";
 import { startGhostGame } from "./Game";
-import { ArrowRight, Moon, Palette, Search, SoundOff, SoundOn, Sun } from "./Icons";
+import { Moon, Palette, Search, SoundOff, SoundOn, Sun } from "./Icons";
 import { onSoundChange, setSound, soundOn } from "./sound";
 import { toggleTheme } from "./theme";
 
@@ -23,7 +23,7 @@ const Header = ({ theme, setTheme, color, setColor, openMenu }) => {
   const isMac = typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform);
 
   return (
-    <header className={`sticky top-0 z-50 transition-[background,backdrop-filter] duration-300 ${scrolled ? "backdrop-blur-md glass border-b border-dashed border-line" : "border-b border-transparent"}`}>
+    <header className={`sticky top-0 z-50 transition-colors duration-200 ${scrolled ? "glass border-b border-dashed border-line" : "border-b border-transparent"}`}>
       <div className="mx-auto flex h-14 max-w-3xl items-center justify-between rail px-4 sm:px-6">
         <Link
           to="/"
@@ -36,11 +36,6 @@ const Header = ({ theme, setTheme, color, setColor, openMenu }) => {
           <Logo className="h-7 w-auto" />
         </Link>
         <nav className="flex items-center gap-1 sm:gap-2">
-          {nav.onContact && (
-            <Link to="/" className="group flex items-center gap-1 rounded-md px-2 py-1 text-sm text-muted transition-colors hover:text-fg">
-              <ArrowRight className="size-3.5 rotate-180 transition-transform group-hover:-translate-x-0.5" /> Home
-            </Link>
-          )}
           <button onClick={startGhostGame} className="rounded-md px-2 py-1 text-sm text-muted transition-colors hover:text-fg" data-cursor="catch the ghost" aria-label="Play catch the ghost">
             Play
           </button>

@@ -21,7 +21,7 @@ const Row = ({ e, i }) => {
             {e.company}
             {e.current && <span className="chip rounded-full px-1.5 py-px font-mono text-[11px] text-muted">now</span>}
           </span>
-          <span className="block truncate text-sm text-muted">{e.role} · {e.meta}</span>
+          <span className="block text-sm text-muted">{e.role} · {e.meta}</span>
         </span>
         <span className="hidden font-mono text-xs text-faint sm:block">{e.date}</span>
         <Chevron className={`size-4 shrink-0 text-faint transition-transform duration-300 group-hover:text-fg ${open ? "rotate-180" : ""}`} />
